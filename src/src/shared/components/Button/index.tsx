@@ -4,7 +4,6 @@ import {
 	StyledEngineProvider,
 } from "@mui/material";
 import type { ButtonProps } from "mf-types";
-// Esto ahora cargará correctamente src/ui/tokens/index.ts
 import { BUTTON_VARIANTS, UI_TOKENS } from "mf-types";
 
 import styles from "./button.module.css";

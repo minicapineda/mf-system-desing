@@ -86,7 +86,7 @@ export const Sidebar = ({ open, toggleDrawer }: SidebarProps) => {
 						>
 							<Tooltip title={!open ? item.label : ""} placement="right">
 								<ListItemButton
-									onClick={() => navigate(item.path)} // NAVEGACIÓN REAL
+									onClick={() => navigate(item.path)}
 									sx={{
 										minHeight: 48,
 										justifyContent: open ? "initial" : "center",
