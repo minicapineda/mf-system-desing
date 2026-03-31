@@ -1,0 +1,1 @@
+import{s as e}from"./iframe-BPWQ6Z6_.js";import{t}from"./react-CsNLYT7o.js";import{t as n}from"./jsx-runtime-DF9OOFLK.js";var r=e(t()),i=n(),a=r.createContext();function o({value:e,...t}){return(0,i.jsx)(a.Provider,{value:e??!0,...t})}var s=()=>r.useContext(a)??!1;export{s as n,o as t};

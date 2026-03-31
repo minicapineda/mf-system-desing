@@ -1,0 +1,6 @@
+node_modules
+src/node_modules
+packages/mf-types/node_modules
+dist
+.git
+.DS_Store
