@@ -1,10 +1,11 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import { ROUTES } from "@/shared";
 import { MainLayout } from "../../features/panel/pages/MainLayout";
 import { LazyWrapper } from "../../shared/layouts";
 
 export const router = createBrowserRouter([
 	{
-		path: "/",
+		path: ROUTES.HOME,
 		element: <MainLayout />,
 		children: [
 			{
@@ -16,7 +17,7 @@ export const router = createBrowserRouter([
 				),
 			},
 			{
-				path: "clientes",
+				path: ROUTES.CLIENTES.replace("/", ""),
 				element: (
 					<LazyWrapper>
 						<div>Módulo de Clientes</div>
@@ -24,7 +25,7 @@ export const router = createBrowserRouter([
 				),
 			},
 			{
-				path: "facturas",
+				path: ROUTES.FACTURAS.replace("/", ""),
 				element: (
 					<LazyWrapper>
 						<div>Módulo de Facturas</div>
@@ -32,7 +33,7 @@ export const router = createBrowserRouter([
 				),
 			},
 			{
-				path: "configuracion",
+				path: ROUTES.CONFIGURACION.replace("/", ""),
 				element: (
 					<LazyWrapper>
 						<div>Módulo de Configuración</div>
@@ -43,6 +44,6 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: "*",
-		element: <Navigate to="/" replace />,
+		element: <Navigate to={ROUTES.HOME} replace />,
 	},
 ]);
