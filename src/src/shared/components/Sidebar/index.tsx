@@ -32,7 +32,6 @@ export const Sidebar = ({ open, toggleDrawer }: SidebarProps) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	// LISTA CON RUTAS REALES (Asegúrate de que coincidan con tu core/router)
 	const menuItems = [
 		{ label: "Dashboard", icon: <DashboardIcon />, path: "/" },
 		{ label: "Clientes", icon: <PeopleIcon />, path: "/clientes" },
