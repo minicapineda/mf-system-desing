@@ -33,6 +33,12 @@ export default defineConfig(({ mode }) => {
 			port: 5173, // Puerto fijo como pediste
 			host: true,
 			strictPort: true,
+			fs: {
+				allow: [
+					path.resolve(process.cwd(), ".."),
+					path.resolve(process.cwd(), "../../packages"),
+				],
+			},
 		},
 		build: {
 			target: "esnext",
