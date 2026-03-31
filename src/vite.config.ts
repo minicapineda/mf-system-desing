@@ -9,7 +9,6 @@ export default defineConfig(({ mode }) => {
 		mode === "storybook";
 
 	return {
-		// Establecemos la raíz explícita para evitar el error de src/src
 		root: process.cwd(),
 		plugins: [
 			react(),
@@ -30,7 +29,7 @@ export default defineConfig(({ mode }) => {
 			extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json"],
 		},
 		server: {
-			port: 5173, // Puerto fijo como pediste
+			port: 5173,
 			host: true,
 			strictPort: true,
 			fs: {
