@@ -1,10 +1,8 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
-// Usamos FormComponentProps y FieldConfig que deben estar en mf-types
 import type { FieldConfig, FormComponentProps } from "mf-types";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import styles from "./form.module.css";
 
-// Campos base que siempre tendrá el formulario
 const BASE_FIELDS: FieldConfig[] = [
 	{ name: "nombre", label: "Nombre completo", type: "text", required: true },
 	{ name: "email", label: "Correo electrónico", type: "email", required: true },
@@ -17,10 +15,7 @@ export const Form = ({
 	onSubmit,
 	buttonText = "Enviar",
 }: FormComponentProps) => {
-	// Unimos los campos base con los extra
 	const allFields = [...BASE_FIELDS, ...extraFields];
-
-	// Inicializamos el estado una sola vez con todos los campos necesarios
 	const [formData, setFormData] = useState<Record<string, string>>(() => {
 		const initialValues: Record<string, string> = {};
 		allFields.forEach((field) => {
@@ -41,7 +36,11 @@ export const Form = ({
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		onSubmit(formData);
+		const filteredData = Object.fromEntries(
+			Object.entries(formData).filter(([_, value]) => value !== ""),
+		);
+
+		onSubmit(filteredData);
 	};
 
 	return (
