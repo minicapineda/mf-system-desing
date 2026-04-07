@@ -7,22 +7,32 @@ import {
 	Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
-import type { FieldConfig, FormComponentProps } from "mf-types";
+import type {
+	AutocompleteOption,
+	FieldConfig,
+	FormComponentProps,
+} from "mf-types";
 import type { AnyObjectSchema } from "yup";
+import { AutocompleteCustom } from "../AutocompleteCustom";
 import styles from "./form.module.css";
+
+const documentOptions: AutocompleteOption[] = [
+	{ id: "C.C", label: "C.C" },
+	{ id: "NIT", label: "NIT" },
+	{ id: "C.E", label: "C.E" },
+	{ id: "PA", label: "PA" },
+];
 
 const BASE_FIELDS: FieldConfig[] = [
 	{
 		name: "full_name",
 		label: "Nombre completo",
 		type: "text",
-		required: true,
 	},
 	{
 		name: "email",
 		label: "Correo electrónico",
 		type: "email",
-		required: true,
 	},
 	{
 		name: "mensaje",
@@ -95,6 +105,24 @@ export const Form = ({
 					const hasError =
 						(formik.touched[field.name] || formik.submitCount > 0) &&
 						Boolean(formik.errors[field.name]);
+
+					if (field.name === "type_document") {
+						return (
+							<AutocompleteCustom
+								key={field.name}
+								label={field.label}
+								options={documentOptions}
+								value={
+									documentOptions.find(
+										(opt) => opt.id === formik.values[field.name],
+									) || null
+								}
+								onChange={(value) =>
+									formik.setFieldValue(field.name, value?.id || "")
+								}
+							/>
+						);
+					}
 
 					return (
 						<TextField

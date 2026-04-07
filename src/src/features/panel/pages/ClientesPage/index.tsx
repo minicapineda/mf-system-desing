@@ -35,7 +35,6 @@ export const ClientesPage = () => {
 						name: "phone",
 						label: "Teléfono de Contacto",
 						type: "tel",
-						required: true,
 					},
 					{
 						name: "type_document",
