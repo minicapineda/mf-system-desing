@@ -7,14 +7,11 @@ RUN corepack enable && corepack prepare pnpm@10.28.1 --activate
 
 WORKDIR /app
 
-# Copiamos las carpetas hermanas manteniendo la estructura que pnpm espera
 COPY packages/ ./packages/
 COPY mf-system-design/ ./mf-system-design/
 
-# Nos movemos a la subcarpeta donde está el package.json de tu app
 WORKDIR /app/mf-system-design/src
 
-# Instalamos (pnpm subirá niveles y encontrará /app/packages/shared-types)
 RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
     pnpm install --ignore-scripts --no-frozen-lockfile
 
