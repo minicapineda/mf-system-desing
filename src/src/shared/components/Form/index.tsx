@@ -12,9 +12,25 @@ import type { AnyObjectSchema } from "yup";
 import styles from "./form.module.css";
 
 const BASE_FIELDS: FieldConfig[] = [
-	{ name: "nombre", label: "Nombre completo", type: "text", required: true },
-	{ name: "email", label: "Correo electrónico", type: "email", required: true },
-	{ name: "mensaje", label: "Mensaje", type: "text", multiline: true, rows: 4 },
+	{
+		name: "full_name",
+		label: "Nombre completo",
+		type: "text",
+		required: true,
+	},
+	{
+		name: "email",
+		label: "Correo electrónico",
+		type: "email",
+		required: true,
+	},
+	{
+		name: "mensaje",
+		label: "Mensaje",
+		type: "text",
+		multiline: true,
+		rows: 4,
+	},
 ];
 
 interface ExtendedFormProps extends FormComponentProps {
@@ -37,7 +53,7 @@ export const Form = ({
 		),
 		validationSchema,
 		validateOnBlur: true,
-		validateOnChange: false,
+		validateOnChange: true,
 		onSubmit: (values) => {
 			const filteredData = Object.fromEntries(
 				Object.entries(values).filter(([_, value]) => value !== ""),
@@ -49,31 +65,11 @@ export const Form = ({
 	if (isLoading) {
 		return (
 			<Paper elevation={3} className={styles.formContainer}>
-				<Box
-					sx={{ display: "flex", flexDirection: "column", gap: 2, padding: 4 }}
-				>
-					<Skeleton
-						variant="text"
-						width="60%"
-						height={40}
-						sx={{ alignSelf: "center", mb: 2 }}
-					/>
+				<Box sx={{ display: "flex", flexDirection: "column", gap: 2, p: 4 }}>
+					<Skeleton variant="text" width="60%" height={40} />
 					{allFields.map((field) => (
-						<Skeleton
-							key={`skeleton-${field.name}`}
-							variant="rounded"
-							width="100%"
-							height={field.multiline ? (field.rows || 4) * 20 + 40 : 56}
-							animation="wave"
-						/>
+						<Skeleton key={field.name} variant="rounded" height={56} />
 					))}
-					<Skeleton
-						variant="rectangular"
-						width="100%"
-						height={45}
-						sx={{ mt: 1, borderRadius: 1 }}
-						animation="wave"
-					/>
 				</Box>
 			</Paper>
 		);
@@ -84,15 +80,16 @@ export const Form = ({
 			<Box
 				component="form"
 				onSubmit={formik.handleSubmit}
-				sx={{ display: "flex", flexDirection: "column", gap: 2, padding: 4 }}
+				sx={{ display: "flex", flexDirection: "column", gap: 2, p: 4 }}
 			>
-				<Typography variant="h5" textAlign="center" gutterBottom>
+				<Typography variant="h5" textAlign="center">
 					{title}
 				</Typography>
 
 				{allFields.map((field) => {
 					const hasError =
-						formik.touched[field.name] && Boolean(formik.errors[field.name]);
+						(formik.touched[field.name] || formik.submitCount > 0) &&
+						Boolean(formik.errors[field.name]);
 
 					return (
 						<TextField
@@ -113,14 +110,7 @@ export const Form = ({
 					);
 				})}
 
-				<Button
-					type="submit"
-					variant="contained"
-					fullWidth
-					size="large"
-					sx={{ mt: 1 }}
-					disabled={formik.isSubmitting}
-				>
+				<Button type="submit" variant="contained" fullWidth size="large">
 					{formik.isSubmitting ? "Procesando..." : buttonText}
 				</Button>
 			</Box>

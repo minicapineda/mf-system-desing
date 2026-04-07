@@ -1,3 +1,3 @@
 export * from "./src";
-export * from "./validators";
+export * from "./src/validators";
 export * from "./vite.config";
