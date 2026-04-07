@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { ROUTES } from "@/shared";
+import { Form } from "@/shared/components/Form";
 import { MainLayout } from "../../features/panel/pages/MainLayout";
 import { LazyWrapper } from "../../shared/layouts";
 
@@ -20,7 +21,15 @@ export const router = createBrowserRouter([
 				path: ROUTES.CLIENTES.replace("/", ""),
 				element: (
 					<LazyWrapper>
-						<div>Módulo de Clientes</div>
+						<div>
+							<Form
+								title="Mi Formulario"
+								onSubmit={(datos) => console.log("Formulario enviado:", datos)}
+								extraFields={[
+									{ name: "telefono", label: "Teléfono", type: "tel" },
+								]}
+							/>
+						</div>
 					</LazyWrapper>
 				),
 			},
@@ -28,7 +37,12 @@ export const router = createBrowserRouter([
 				path: ROUTES.FACTURAS.replace("/", ""),
 				element: (
 					<LazyWrapper>
-						<div>Módulo de Facturas</div>
+						<div>
+							<Form
+								title="Mi Formulario"
+								onSubmit={(datos) => console.log("Formulario enviado:", datos)}
+							/>
+						</div>
 					</LazyWrapper>
 				),
 			},
