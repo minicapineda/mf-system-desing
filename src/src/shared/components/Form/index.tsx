@@ -66,7 +66,12 @@ export const Form = ({
 		return (
 			<Paper elevation={3} className={styles.formContainer}>
 				<Box sx={{ display: "flex", flexDirection: "column", gap: 2, p: 4 }}>
-					<Skeleton variant="text" width="60%" height={40} />
+					<Skeleton
+						variant="text"
+						width="60%"
+						height={40}
+						sx={{ mx: "auto" }}
+					/>
 					{allFields.map((field) => (
 						<Skeleton key={field.name} variant="rounded" height={56} />
 					))}
