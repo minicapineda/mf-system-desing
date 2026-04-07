@@ -21,12 +21,10 @@ export const Form = ({
 	extraFields = [],
 	onSubmit,
 	buttonText = "Enviar",
-	isLoading = false, // Recibimos el estado de carga
+	isLoading = false,
 }: FormComponentProps) => {
-	// Unimos campos base con extras
 	const allFields = [...BASE_FIELDS, ...extraFields];
 
-	// Estado inicial dinámico
 	const [formData, setFormData] = useState<Record<string, string>>(() => {
 		const initialValues: Record<string, string> = {};
 		allFields.forEach((field) => {
