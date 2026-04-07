@@ -1,4 +1,11 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import {
+	Box,
+	Button,
+	Paper,
+	Skeleton,
+	TextField,
+	Typography,
+} from "@mui/material";
 import type { FieldConfig, FormComponentProps } from "mf-types";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import styles from "./form.module.css";
@@ -14,8 +21,12 @@ export const Form = ({
 	extraFields = [],
 	onSubmit,
 	buttonText = "Enviar",
+	isLoading = false, // Recibimos el estado de carga
 }: FormComponentProps) => {
+	// Unimos campos base con extras
 	const allFields = [...BASE_FIELDS, ...extraFields];
+
+	// Estado inicial dinámico
 	const [formData, setFormData] = useState<Record<string, string>>(() => {
 		const initialValues: Record<string, string> = {};
 		allFields.forEach((field) => {
@@ -39,9 +50,43 @@ export const Form = ({
 		const filteredData = Object.fromEntries(
 			Object.entries(formData).filter(([_, value]) => value !== ""),
 		);
-
 		onSubmit(filteredData);
 	};
+
+	if (isLoading) {
+		return (
+			<Paper elevation={3} className={styles.formContainer}>
+				<Box
+					sx={{ display: "flex", flexDirection: "column", gap: 2, padding: 4 }}
+				>
+					<Skeleton
+						variant="text"
+						width="60%"
+						height={40}
+						sx={{ alignSelf: "center", mb: 2 }}
+					/>
+
+					{allFields.map((field) => (
+						<Skeleton
+							key={`skeleton-${field.name}`}
+							variant="rounded"
+							width="100%"
+							height={field.multiline ? (field.rows || 4) * 20 + 40 : 56}
+							animation="wave"
+						/>
+					))}
+
+					<Skeleton
+						variant="rectangular"
+						width="100%"
+						height={45}
+						sx={{ mt: 1, borderRadius: 1 }}
+						animation="wave"
+					/>
+				</Box>
+			</Paper>
+		);
+	}
 
 	return (
 		<Paper elevation={3} className={styles.formContainer}>

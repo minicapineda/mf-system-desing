@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import { ClientesPage } from "@/features/panel/pages/ClientesPage";
 import { ROUTES } from "@/shared";
 import { Form } from "@/shared/components/Form";
 import { MainLayout } from "../../features/panel/pages/MainLayout";
@@ -22,13 +23,7 @@ export const router = createBrowserRouter([
 				element: (
 					<LazyWrapper>
 						<div>
-							<Form
-								title="Mi Formulario"
-								onSubmit={(datos) => console.log("Formulario enviado:", datos)}
-								extraFields={[
-									{ name: "telefono", label: "Teléfono", type: "tel" },
-								]}
-							/>
+							<ClientesPage />
 						</div>
 					</LazyWrapper>
 				),
