@@ -6,8 +6,9 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
+import { useFormik } from "formik";
 import type { FieldConfig, FormComponentProps } from "mf-types";
-import { type ChangeEvent, type FormEvent, useState } from "react";
+import type { AnyObjectSchema } from "yup";
 import styles from "./form.module.css";
 
 const BASE_FIELDS: FieldConfig[] = [
@@ -16,40 +17,34 @@ const BASE_FIELDS: FieldConfig[] = [
 	{ name: "mensaje", label: "Mensaje", type: "text", multiline: true, rows: 4 },
 ];
 
+interface ExtendedFormProps extends FormComponentProps {
+	validationSchema?: AnyObjectSchema;
+}
+
 export const Form = ({
 	title = "Contacto",
 	extraFields = [],
 	onSubmit,
 	buttonText = "Enviar",
 	isLoading = false,
-}: FormComponentProps) => {
+	validationSchema,
+}: ExtendedFormProps) => {
 	const allFields = [...BASE_FIELDS, ...extraFields];
 
-	const [formData, setFormData] = useState<Record<string, string>>(() => {
-		const initialValues: Record<string, string> = {};
-		allFields.forEach((field) => {
-			initialValues[field.name] = "";
-		});
-		return initialValues;
+	const formik = useFormik({
+		initialValues: Object.fromEntries(
+			allFields.map((field) => [field.name, ""]),
+		),
+		validationSchema,
+		validateOnBlur: true,
+		validateOnChange: false,
+		onSubmit: (values) => {
+			const filteredData = Object.fromEntries(
+				Object.entries(values).filter(([_, value]) => value !== ""),
+			);
+			onSubmit(filteredData);
+		},
 	});
-
-	const handleChange = (
-		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-	) => {
-		const { name, value } = e.target;
-		setFormData((prev) => ({
-			...prev,
-			[name]: value,
-		}));
-	};
-
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const filteredData = Object.fromEntries(
-			Object.entries(formData).filter(([_, value]) => value !== ""),
-		);
-		onSubmit(filteredData);
-	};
 
 	if (isLoading) {
 		return (
@@ -63,7 +58,6 @@ export const Form = ({
 						height={40}
 						sx={{ alignSelf: "center", mb: 2 }}
 					/>
-
 					{allFields.map((field) => (
 						<Skeleton
 							key={`skeleton-${field.name}`}
@@ -73,7 +67,6 @@ export const Form = ({
 							animation="wave"
 						/>
 					))}
-
 					<Skeleton
 						variant="rectangular"
 						width="100%"
@@ -90,27 +83,35 @@ export const Form = ({
 		<Paper elevation={3} className={styles.formContainer}>
 			<Box
 				component="form"
-				onSubmit={handleSubmit}
+				onSubmit={formik.handleSubmit}
 				sx={{ display: "flex", flexDirection: "column", gap: 2, padding: 4 }}
 			>
 				<Typography variant="h5" textAlign="center" gutterBottom>
 					{title}
 				</Typography>
 
-				{allFields.map((field) => (
-					<TextField
-						key={field.name}
-						name={field.name}
-						label={field.label}
-						type={field.type}
-						fullWidth
-						required={field.required}
-						multiline={field.multiline}
-						rows={field.rows}
-						value={formData[field.name] || ""}
-						onChange={handleChange}
-					/>
-				))}
+				{allFields.map((field) => {
+					const hasError =
+						formik.touched[field.name] && Boolean(formik.errors[field.name]);
+
+					return (
+						<TextField
+							key={field.name}
+							name={field.name}
+							label={field.label}
+							type={field.type}
+							fullWidth
+							required={field.required}
+							multiline={field.multiline}
+							rows={field.rows}
+							value={formik.values[field.name] || ""}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							error={hasError}
+							helperText={hasError ? (formik.errors[field.name] as string) : ""}
+						/>
+					);
+				})}
 
 				<Button
 					type="submit"
@@ -118,8 +119,9 @@ export const Form = ({
 					fullWidth
 					size="large"
 					sx={{ mt: 1 }}
+					disabled={formik.isSubmitting}
 				>
-					{buttonText}
+					{formik.isSubmitting ? "Procesando..." : buttonText}
 				</Button>
 			</Box>
 		</Paper>

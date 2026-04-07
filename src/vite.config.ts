@@ -1,15 +1,15 @@
 import path from "node:path";
 import federation from "@originjs/vite-plugin-federation";
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import { type ConfigEnv, defineConfig } from "vite";
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode }: ConfigEnv) => {
 	const isStorybook =
 		process.env.npm_lifecycle_script?.includes("storybook") ||
 		mode === "storybook";
 
 	return {
-		root: process.cwd(),
+		root: path.resolve(__dirname),
 		plugins: [
 			react(),
 			!isStorybook &&
@@ -19,12 +19,12 @@ export default defineConfig(({ mode }) => {
 					exposes: {
 						"./Button": "./src/shared/components/Button/index.tsx",
 					},
-					shared: ["react", "react-dom", "zustand", "@mui/material"],
+					shared: ["react", "react-dom", "zustand", "formik", "@mui/material"],
 				}),
 		].filter(Boolean),
 		resolve: {
 			alias: {
-				"@": path.resolve(process.cwd(), "src"),
+				"@": path.resolve(__dirname, "src"),
 			},
 			extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json"],
 		},
@@ -34,8 +34,8 @@ export default defineConfig(({ mode }) => {
 			strictPort: true,
 			fs: {
 				allow: [
-					path.resolve(process.cwd(), ".."),
-					path.resolve(process.cwd(), "../../packages"),
+					path.resolve(__dirname, ".."),
+					path.resolve(__dirname, "../../packages"),
 				],
 			},
 		},
