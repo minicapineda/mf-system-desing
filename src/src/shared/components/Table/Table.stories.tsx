@@ -5,7 +5,8 @@ import {
 	ThemeProvider,
 } from "@mui/material/styles";
 import type { Meta, StoryObj } from "@storybook/react";
-import { type Column, Table } from "./index";
+import type { TableColumn } from "mf-types";
+import { Table } from "./index";
 
 const theme = createTheme();
 
@@ -46,13 +47,13 @@ export default meta;
 
 type Story = StoryObj<typeof Table<User>>;
 
-const columns: Column<User>[] = [
-	{ key: "id", label: "ID", align: "center" },
-	{ key: "name", label: "Nombre Completo" },
-	{ key: "email", label: "Correo Electrónico" },
+const columns: TableColumn<User>[] = [
+	{ key: "id", header: "ID" },
+	{ key: "name", header: "Nombre Completo" },
+	{ key: "email", header: "Correo Electrónico" },
 	{
 		key: "role",
-		label: "Rol",
+		header: "Rol",
 		render: (user: User) => (
 			<span
 				style={{

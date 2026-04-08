@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import * as Yup from "yup";
+
 import { Form } from "./index";
 
 const meta: Meta<typeof Form> = {
@@ -12,15 +12,6 @@ export default meta;
 
 type Story = StoryObj<typeof Form>;
 
-// 🔥 VALIDACIÓN MOCK
-const validationSchema = Yup.object({
-	full_name: Yup.string().required("Requerido"),
-	email: Yup.string().email("Email inválido").required("Requerido"),
-	type_document: Yup.string().required("Requerido"),
-	document: Yup.string().required("Requerido"),
-});
-
-// 🔥 CAMPOS EXTRA
 const extraFields = [
 	{
 		name: "type_document",
@@ -34,18 +25,16 @@ const extraFields = [
 	},
 ];
 
-// ✅ DEFAULT
 export const Default: Story = {
 	args: {
 		title: "Formulario de Cliente",
 		buttonText: "Guardar",
 		extraFields,
-		validationSchema,
+
 		onSubmit: (data) => console.log(data),
 	},
 };
 
-// ✅ LOADING
 export const Loading: Story = {
 	args: {
 		title: "Formulario cargando",
@@ -54,7 +43,6 @@ export const Loading: Story = {
 	},
 };
 
-// ✅ SIN EXTRA FIELDS
 export const Basic: Story = {
 	args: {
 		title: "Formulario básico",
@@ -62,12 +50,10 @@ export const Basic: Story = {
 	},
 };
 
-// ✅ CON ERROR (simulado)
 export const WithErrors: Story = {
 	args: {
 		title: "Formulario con validación",
 		extraFields,
-		validationSchema,
 		onSubmit: () => {},
 	},
 };
