@@ -1,5 +1,6 @@
 import { Box, Button, Paper, Skeleton, Typography } from "@mui/material";
 import type { FormComponentProps } from "mf-types";
+import React from "react";
 import styles from "./form.module.css";
 
 interface FormProps extends FormComponentProps {
@@ -14,6 +15,8 @@ export const Form = ({
 	children,
 }: FormProps) => {
 	if (isLoading) {
+		const childrenArray = React.Children.toArray(children);
+
 		return (
 			<Paper elevation={3} className={styles.formContainer}>
 				<Box sx={{ display: "flex", flexDirection: "column", gap: 2, p: 4 }}>
@@ -23,7 +26,18 @@ export const Form = ({
 						height={40}
 						sx={{ mx: "auto" }}
 					/>
-					<Skeleton variant="rounded" height={56} />
+
+					{childrenArray.map((child) => {
+						if (!React.isValidElement(child)) return null;
+
+						const key =
+							child.key ??
+							(child.props as { name?: string }).name ??
+							Math.random().toString(36);
+
+						return <Skeleton key={key} variant="rounded" height={56} />;
+					})}
+
 					<Skeleton variant="rounded" height={56} />
 				</Box>
 			</Paper>
@@ -36,10 +50,8 @@ export const Form = ({
 				component="form"
 				onSubmit={(e) => {
 					e.preventDefault();
-
 					const formData = new FormData(e.currentTarget);
 					const values = Object.fromEntries(formData.entries());
-
 					onSubmit(values as Record<string, string>);
 				}}
 				sx={{ display: "flex", flexDirection: "column", gap: 2, p: 4 }}
