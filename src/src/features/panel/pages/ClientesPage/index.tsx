@@ -48,7 +48,7 @@ export const ClientesPage = () => {
 					},
 				]}
 			/>
-			<Button label="Borrar" color="secondary" />
+			<Button label="activar" color="secondary" />
 		</Box>
 	);
 };

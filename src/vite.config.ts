@@ -1,15 +1,20 @@
 import path from "node:path";
 import federation from "@originjs/vite-plugin-federation";
 import react from "@vitejs/plugin-react";
-import { type ConfigEnv, defineConfig } from "vite";
+import { defineConfig } from "vite";
 
-export default defineConfig(({ mode }: ConfigEnv) => {
+export default defineConfig(() => {
 	const isStorybook =
-		process.env.npm_lifecycle_script?.includes("storybook") ||
-		mode === "storybook";
+		process.env.STORYBOOK === "true" ||
+		process.env.npm_lifecycle_script?.includes("storybook");
 
 	return {
 		root: path.resolve(__dirname),
+
+		define: {
+			"process.env": {},
+		},
+
 		plugins: [
 			react(),
 			!isStorybook &&
@@ -22,12 +27,14 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 					shared: ["react", "react-dom", "zustand", "formik", "@mui/material"],
 				}),
 		].filter(Boolean),
+
 		resolve: {
 			alias: {
 				"@": path.resolve(__dirname, "src"),
 			},
 			extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json"],
 		},
+
 		server: {
 			port: 5173,
 			host: true,
@@ -39,6 +46,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 				],
 			},
 		},
+
 		build: {
 			target: "esnext",
 			minify: false,
