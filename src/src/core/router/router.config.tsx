@@ -1,7 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { ClientesPage } from "@/features/panel/pages/ClientesPages";
 import { ROUTES } from "@/shared";
-import { Form } from "@/shared/components/Form";
 
 import { MainLayout } from "../../features/panel/pages/MainLayout";
 import { LazyWrapper } from "../../shared/layouts";
@@ -33,12 +32,7 @@ export const router = createBrowserRouter([
 				path: ROUTES.FACTURAS.replace("/", ""),
 				element: (
 					<LazyWrapper>
-						<div>
-							<Form
-								title="Mi Formulario Facturas"
-								onSubmit={(datos) => console.log("Formulario enviado:", datos)}
-							/>
-						</div>
+						<div>Módulo de Facturas</div>
 					</LazyWrapper>
 				),
 			},

@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Skeleton, Typography } from "@mui/material";
+import { Box, Paper, Skeleton, Typography } from "@mui/material";
 import type { FormComponentProps } from "mf-types";
 import React from "react";
 import styles from "./form.module.css";
@@ -9,7 +9,6 @@ interface FormProps extends FormComponentProps {
 
 export const Form = ({
 	title = "Formulario",
-	buttonText = "Enviar",
 	isLoading = false,
 	onSubmit,
 	children,
@@ -30,12 +29,17 @@ export const Form = ({
 					{childrenArray.map((child) => {
 						if (!React.isValidElement(child)) return null;
 
-						const key =
-							child.key ??
-							(child.props as { name?: string }).name ??
-							Math.random().toString(36);
+						const props = child.props as { name?: string; type?: string };
+						const key = child.key ?? props.name ?? Math.random().toString(36);
+						const isButton = props.type === "submit";
 
-						return <Skeleton key={key} variant="rounded" height={56} />;
+						return (
+							<Skeleton
+								key={key}
+								variant="rounded"
+								height={isButton ? 56 : 56}
+							/>
+						);
 					})}
 
 					<Skeleton variant="rounded" height={56} />
@@ -61,10 +65,6 @@ export const Form = ({
 				</Typography>
 
 				{children}
-
-				<Button type="submit" variant="contained" fullWidth size="large">
-					{buttonText}
-				</Button>
 			</Box>
 		</Paper>
 	);

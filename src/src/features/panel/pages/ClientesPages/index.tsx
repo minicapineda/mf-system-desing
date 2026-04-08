@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-
+import { Button } from "@/shared";
 import { Form } from "@/shared/components/Form";
 import { Input } from "@/shared/components/Input";
 
@@ -53,6 +53,12 @@ export const ClientesPage = () => {
 					value={formValues.email}
 					onChange={(value: string) => handleChange("email", value)}
 				/>
+				<Input
+					name="text"
+					label="Texto"
+					value={formValues.text}
+					onChange={(value: string) => handleChange("text", value)}
+				/>
 
 				<Input
 					name="document"
@@ -62,6 +68,7 @@ export const ClientesPage = () => {
 						handleChange("document", value.replace(/\D/g, "").slice(0, 12))
 					}
 				/>
+				<Button label="Registrar Cliente" type="submit" fullWidth />
 			</Form>
 		</Box>
 	);
