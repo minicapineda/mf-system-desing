@@ -16,12 +16,10 @@
     "@emotion/styled": "11.14.0",
     "@mui/icons-material": "6.4.5",
     "@mui/material": "6.4.5",
-    "formik": "2.4.9",
     "mf-types": "link:../../packages/mf-types",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-router-dom": "7.13.2",
-    "yup": "1.7.1",
     "zustand": "4.5.2"
   },
   "devDependencies": {
