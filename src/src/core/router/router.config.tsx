@@ -1,8 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { ClientesPage } from "@/features/panel/pages/ClientesPage";
+import { ClientesPage } from "@/features/panel/pages/ClientesPages";
 import { ROUTES } from "@/shared";
 import { Form } from "@/shared/components/Form";
-import { validatorSchemaFormRegister } from "@/validators";
+
 import { MainLayout } from "../../features/panel/pages/MainLayout";
 import { LazyWrapper } from "../../shared/layouts";
 
@@ -35,9 +35,8 @@ export const router = createBrowserRouter([
 					<LazyWrapper>
 						<div>
 							<Form
-								title="Mi Formulario"
+								title="Mi Formulario Facturas"
 								onSubmit={(datos) => console.log("Formulario enviado:", datos)}
-								validationSchema={validatorSchemaFormRegister}
 							/>
 						</div>
 					</LazyWrapper>

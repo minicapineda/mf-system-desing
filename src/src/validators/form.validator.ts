@@ -18,9 +18,9 @@ export const validatorSchemaFormRegister = Yup.object({
 		.required("* El tipo de documento es obligatorio."),
 
 	document: Yup.string()
-		.min(5, "* Mínimo 5 dígitos")
-		.max(15, "* Máximo 15 dígitos")
-		.required("* El documento es obligatorio."),
+		.matches(/^[0-9]+$/, "* Solo se permiten números")
+		.length(12, "* Debe tener exactamente 12 dígitos")
+		.required("* El documento es obligatorio"),
 
 	mensaje: Yup.string()
 		.min(5, "* Muy corto")

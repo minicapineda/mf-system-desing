@@ -2,6 +2,7 @@ import {
 	Autocomplete,
 	Box,
 	Button,
+	CircularProgress,
 	Divider,
 	Paper,
 	TextField,
@@ -16,10 +17,13 @@ export const AutocompleteCustom = <T extends AutocompleteOption>({
 	onAddNew,
 	label,
 	value,
+	placeholder,
+	addNewText = "+ Añadir nuevo",
 	...props
 }: AutocompleteProps<T>) => {
 	const [inputValue, setInputValue] = useState("");
 	const [openModal, setOpenModal] = useState(false);
+	const [loading] = useState(false);
 
 	return (
 		<>
@@ -27,13 +31,20 @@ export const AutocompleteCustom = <T extends AutocompleteOption>({
 				{...props}
 				options={options}
 				value={value || null}
-				getOptionLabel={(option) => option.label}
-				onInputChange={(_, value) => setInputValue(value)}
-				onChange={(_, newValue) => onChange(newValue)}
-				PaperComponent={({ children }) => (
-					<Paper>
-						{children}
+				loading={loading}
+				getOptionLabel={(option) =>
+					typeof option === "string" ? option : (option?.label ?? "")
+				}
+				isOptionEqualToValue={(option, val) => option.id === val.id}
+				onInputChange={(_, newInput) => setInputValue(newInput)}
+				onChange={(_, newValue) => onChange(newValue ?? null)}
+				noOptionsText="Sin resultados"
+				PaperComponent={(paperProps) => (
+					<Paper {...paperProps}>
+						{paperProps.children}
+
 						<Divider />
+
 						<Box sx={{ p: 1 }}>
 							<Button
 								fullWidth
@@ -41,18 +52,32 @@ export const AutocompleteCustom = <T extends AutocompleteOption>({
 								variant="text"
 								onMouseDown={(e) => {
 									e.preventDefault();
-									setOpenModal(true); // 🔥 ABRE MODAL
+									setOpenModal(true);
 								}}
 							>
-								+ Añadir nuevo
+								{addNewText}
 							</Button>
 						</Box>
 					</Paper>
 				)}
-				renderInput={(params) => <TextField {...params} label={label} />}
+				renderInput={(params) => (
+					<TextField
+						{...params}
+						label={label}
+						placeholder={placeholder}
+						InputProps={{
+							...params.InputProps,
+							endAdornment: (
+								<>
+									{loading && <CircularProgress size={18} />}
+									{params.InputProps.endAdornment}
+								</>
+							),
+						}}
+					/>
+				)}
 			/>
 
-			{/* 🔥 MODAL */}
 			<AddOptionModal
 				open={openModal}
 				initialValue={inputValue}
