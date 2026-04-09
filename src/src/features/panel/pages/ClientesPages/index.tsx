@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, Pagination } from "@/shared";
 import { Form } from "@/shared/components/Form";
 import { Input } from "@/shared/components/Input";
+import styles from "./clientspages.module.css";
 
 export const ClientesPage = () => {
 	const [loading, setLoading] = useState(true);
@@ -68,7 +69,9 @@ export const ClientesPage = () => {
 						handleChange("document", value.replace(/\D/g, "").slice(0, 12))
 					}
 				/>
-				<Button label="Registrar Cliente" type="submit" fullWidth />
+				<div className={styles.buttonContainer}>
+					<Button label="Registrar Cliente" type="submit" fullWidth />
+				</div>
 			</Form>
 
 			<Pagination

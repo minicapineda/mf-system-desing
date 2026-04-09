@@ -41,8 +41,6 @@ export const Form = ({
 							/>
 						);
 					})}
-
-					<Skeleton variant="rounded" height={56} />
 				</Box>
 			</Paper>
 		);
