@@ -1,8 +1,9 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Button, Pagination } from "@/shared";
 import { Form } from "@/shared/components/Form";
 import { Input } from "@/shared/components/Input";
+import { Title } from "@/shared/components/Title";
 import styles from "./clientspages.module.css";
 
 export const ClientesPage = () => {
@@ -31,16 +32,8 @@ export const ClientesPage = () => {
 
 	return (
 		<Box sx={{ p: 3 }}>
-			<Typography variant="h4" sx={{ mb: 4, fontWeight: "bold" }}>
-				Módulo de Clientes
-			</Typography>
-
-			<Form
-				title="Registro de Clientes"
-				isLoading={loading}
-				buttonText="Registrar Cliente"
-				onSubmit={handleSubmit}
-			>
+			<Form isLoading={loading} onSubmit={handleSubmit}>
+				<Title text="Registro de Clientes" />
 				<Input
 					name="full_name"
 					label="Nombre completo"
