@@ -24,7 +24,7 @@ export default defineConfig(() => {
 					exposes: {
 						"./Button": "./src/shared/components/Button/index.tsx",
 					},
-					shared: ["react", "react-dom", "zustand", "formik", "@mui/material"],
+					shared: ["react", "react-dom", "zustand", "@mui/material"],
 				}),
 		].filter(Boolean),
 
