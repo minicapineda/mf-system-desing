@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Button } from "@/shared";
+import { Button, Pagination } from "@/shared";
 import { Form } from "@/shared/components/Form";
 import { Input } from "@/shared/components/Input";
 
@@ -70,6 +70,12 @@ export const ClientesPage = () => {
 				/>
 				<Button label="Registrar Cliente" type="submit" fullWidth />
 			</Form>
+
+			<Pagination
+				currentPage={1}
+				totalPages={5}
+				onPageChange={(page) => console.log("Cambiar a página:", page)}
+			/>
 		</Box>
 	);
 };

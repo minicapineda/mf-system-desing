@@ -6,22 +6,20 @@
       "ES2023",
       "DOM",
       "DOM.Iterable"
-    ], // Añade DOM para que JSX no falle
+    ],
     "module": "ESNext",
     "types": [
       "node",
       "vite/client"
-    ], // ¡IMPORTANTE! Añade vite/client
+    ],
     "skipLibCheck": true,
-    /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": false, // Cambia a false si tienes problemas con imports de tipos
+    "verbatimModuleSyntax": false,
     "moduleDetection": "force",
     "noEmit": true,
-    /* Linting */
     "strict": true,
-    "noUnusedLocals": false, // Déjalo en false mientras debugueas para evitar ruidos
+    "noUnusedLocals": false,
     "noUnusedParameters": false,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
