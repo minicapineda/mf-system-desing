@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Button, Pagination } from "@/shared";
-import { Form } from "@/shared/components/Form";
-import { Input } from "@/shared/components/Input";
-import { Title } from "@/shared/components/Title";
+import { Button, Pagination } from "src/shared";
+import { Form } from "src/shared/components/Form";
+import { Input } from "src/shared/components/Input";
+import { Title } from "src/shared/components/Title";
 import styles from "./clientspages.module.css";
 
 export const ClientesPage = () => {

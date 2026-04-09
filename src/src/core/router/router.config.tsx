@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { ClientesPage } from "@/features/panel/pages/ClientesPages";
-import { ROUTES } from "@/shared";
+import { ClientesPage } from "src/features/panel/pages/ClientesPages";
+import { ROUTES } from "src/shared";
 
 import { MainLayout } from "../../features/panel/pages/MainLayout";
 import { LazyWrapper } from "../../shared/layouts";
