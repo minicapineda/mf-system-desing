@@ -1,12 +1,13 @@
-import { Box } from "@mui/material";
-import CssBaseline from "@mui/material/CssBaseline";
 import {
+	Box,
+	CssBaseline,
 	createTheme,
 	StyledEngineProvider,
 	ThemeProvider,
-} from "@mui/material/styles";
+} from "@mui/material";
 import type { Meta, StoryObj } from "@storybook/react";
 import type { Invoices, TableColumn } from "mf-types";
+import { useMemo, useState } from "react";
 import { Table } from "./index";
 
 const theme = createTheme();
@@ -15,16 +16,11 @@ const meta: Meta<typeof Table<Invoices>> = {
 	title: "Shared/Components/Table",
 	component: Table,
 	tags: ["autodocs"],
-	argTypes: {
-		loading: { control: "boolean" },
-		rowsPerPage: { control: "number" },
-	},
 	decorators: [
 		(Story) => (
 			<StyledEngineProvider injectFirst>
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
-
 					<Box
 						sx={{
 							backgroundColor: "#f4f7fa",
@@ -45,7 +41,6 @@ const meta: Meta<typeof Table<Invoices>> = {
 };
 
 export default meta;
-
 type Story = StoryObj<typeof Table<Invoices>>;
 
 const columns: TableColumn<Invoices>[] = [
@@ -55,13 +50,12 @@ const columns: TableColumn<Invoices>[] = [
 	{
 		key: "total",
 		header: "Monto Total",
-		render: (row: Invoices) => (
-			<span style={{ fontWeight: "bold", color: "#2c3e50" }}>{row.total}</span>
-		),
+		render: (r) => <b style={{ color: "#1e293b" }}>{r.total}</b>,
 	},
 ];
 
-const data: Invoices[] = [
+// Datos de prueba (12 registros para poder probar varias páginas)
+const mockData: Invoices[] = [
 	{
 		id: 1,
 		codigo: "FAC-001",
@@ -97,33 +91,84 @@ const data: Invoices[] = [
 		total: "$890.000",
 		fecha: "2026-02-10",
 	},
+	{
+		id: 6,
+		codigo: "FAC-006",
+		cliente: "Test Registro 6",
+		total: "$100.000",
+		fecha: "2026-02-11",
+	},
+	{
+		id: 7,
+		codigo: "FAC-007",
+		cliente: "Empresa Siete",
+		total: "$500.000",
+		fecha: "2026-02-12",
+	},
+	{
+		id: 8,
+		codigo: "FAC-008",
+		cliente: "Cliente Ocho",
+		total: "$80.000",
+		fecha: "2026-02-13",
+	},
+	{
+		id: 9,
+		codigo: "FAC-009",
+		cliente: "Negocio Nueve",
+		total: "$2.000",
+		fecha: "2026-02-14",
+	},
+	{
+		id: 10,
+		codigo: "FAC-010",
+		cliente: "Factura Diez",
+		total: "$350.000",
+		fecha: "2026-02-15",
+	},
+	{
+		id: 11,
+		codigo: "FAC-011",
+		cliente: "Once S.A.",
+		total: "$1.000.000",
+		fecha: "2026-02-16",
+	},
+	{
+		id: 12,
+		codigo: "FAC-012",
+		cliente: "Doce Corp",
+		total: "$75.000",
+		fecha: "2026-02-17",
+	},
 ];
 
 export const Default: Story = {
-	args: {
-		columns: columns,
-		data: data,
-		totalCount: 10,
-		page: 0,
-		rowsPerPage: 5,
-		loading: false,
-	},
-};
+	render: (args) => {
+		const [currentPage, setCurrentPage] = useState(0);
+		const [rowsPerPage, setRowsPerPage] = useState(5);
+		const paginatedData = useMemo(() => {
+			const start = currentPage * rowsPerPage;
+			const end = start + rowsPerPage;
+			return mockData.slice(start, end);
+		}, [currentPage, rowsPerPage]);
 
-export const Loading: Story = {
-	args: {
-		columns: columns,
-		data: [],
-		loading: true,
-		rowsPerPage: 5,
+		return (
+			<Table
+				{...args}
+				data={paginatedData}
+				page={currentPage}
+				rowsPerPage={rowsPerPage}
+				totalCount={mockData.length}
+				onPageChange={(p) => setCurrentPage(p)}
+				onRowsPerPageChange={(rpp) => {
+					setRowsPerPage(rpp);
+					setCurrentPage(0);
+				}}
+			/>
+		);
 	},
-};
-
-export const Empty: Story = {
 	args: {
 		columns: columns,
-		data: [],
 		loading: false,
-		emptyMessage: "No se encontraron registros.",
 	},
 };
