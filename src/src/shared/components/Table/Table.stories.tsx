@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import {
 	createTheme,
@@ -5,38 +6,38 @@ import {
 	ThemeProvider,
 } from "@mui/material/styles";
 import type { Meta, StoryObj } from "@storybook/react";
-import type { TableColumn } from "mf-types";
+import type { Invoices, TableColumn } from "mf-types";
 import { Table } from "./index";
 
 const theme = createTheme();
 
-interface User {
-	id: number;
-	name: string;
-	email: string;
-	role: string;
-}
-
-const meta: Meta<typeof Table<User>> = {
+const meta: Meta<typeof Table<Invoices>> = {
 	title: "Shared/Components/Table",
 	component: Table,
 	tags: ["autodocs"],
-	parameters: {
-		docs: {
-			source: {
-				type: "dynamic",
-				excludeDecorators: true,
-			},
-		},
+	argTypes: {
+		loading: { control: "boolean" },
+		rowsPerPage: { control: "number" },
 	},
 	decorators: [
 		(Story) => (
 			<StyledEngineProvider injectFirst>
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
-					<div style={{ padding: "2rem" }}>
-						<Story />
-					</div>
+
+					<Box
+						sx={{
+							backgroundColor: "#f4f7fa",
+							padding: "40px",
+							minHeight: "100vh",
+							display: "flex",
+							justifyContent: "center",
+						}}
+					>
+						<Box sx={{ width: "100%", maxWidth: "1200px" }}>
+							<Story />
+						</Box>
+					</Box>
 				</ThemeProvider>
 			</StyledEngineProvider>
 		),
@@ -45,45 +46,56 @@ const meta: Meta<typeof Table<User>> = {
 
 export default meta;
 
-type Story = StoryObj<typeof Table<User>>;
+type Story = StoryObj<typeof Table<Invoices>>;
 
-const columns: TableColumn<User>[] = [
-	{ key: "id", header: "ID" },
-	{ key: "name", header: "Nombre Completo" },
-	{ key: "email", header: "Correo Electrónico" },
+const columns: TableColumn<Invoices>[] = [
+	{ key: "codigo", header: "Referencia" },
+	{ key: "cliente", header: "Nombre Cliente" },
+	{ key: "fecha", header: "Fecha Emisión" },
 	{
-		key: "role",
-		header: "Rol",
-		render: (user: User) => (
-			<span
-				style={{
-					padding: "4px 8px",
-					borderRadius: "4px",
-					backgroundColor: user.role === "Admin" ? "#fee2e2" : "#dcfce7",
-					color: user.role === "Admin" ? "#991b1b" : "#166534",
-					fontSize: "0.75rem",
-					fontWeight: "bold",
-				}}
-			>
-				{user.role}
-			</span>
+		key: "total",
+		header: "Monto Total",
+		render: (row: Invoices) => (
+			<span style={{ fontWeight: "bold", color: "#2c3e50" }}>{row.total}</span>
 		),
 	},
 ];
 
-const data: User[] = [
+const data: Invoices[] = [
 	{
 		id: 1,
-		name: "Monica Villegas",
-		email: "monica@example.com",
-		role: "Admin",
+		codigo: "FAC-001",
+		cliente: "Mónica Villegas",
+		total: "$2.500.000",
+		fecha: "2026-04-10",
 	},
-	{ id: 2, name: "Luis Santiago", email: "luis@example.com", role: "User" },
+	{
+		id: 2,
+		codigo: "FAC-002",
+		cliente: "Luis Santiago",
+		total: "$120.000",
+		fecha: "2026-01-15",
+	},
 	{
 		id: 3,
-		name: "Santiago Villamizar",
-		email: "santi@example.com",
-		role: "User",
+		codigo: "FAC-003",
+		cliente: "Innovatech S.A.S",
+		total: "$4.300.000",
+		fecha: "2025-12-24",
+	},
+	{
+		id: 4,
+		codigo: "FAC-004",
+		cliente: "Tienda Local",
+		total: "$50.000",
+		fecha: "2026-03-20",
+	},
+	{
+		id: 5,
+		codigo: "FAC-005",
+		cliente: "Alpha Corp",
+		total: "$890.000",
+		fecha: "2026-02-10",
 	},
 ];
 
@@ -91,5 +103,27 @@ export const Default: Story = {
 	args: {
 		columns: columns,
 		data: data,
+		totalCount: 10,
+		page: 0,
+		rowsPerPage: 5,
+		loading: false,
+	},
+};
+
+export const Loading: Story = {
+	args: {
+		columns: columns,
+		data: [],
+		loading: true,
+		rowsPerPage: 5,
+	},
+};
+
+export const Empty: Story = {
+	args: {
+		columns: columns,
+		data: [],
+		loading: false,
+		emptyMessage: "No se encontraron registros.",
 	},
 };

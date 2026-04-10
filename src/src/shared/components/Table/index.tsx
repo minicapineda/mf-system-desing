@@ -112,7 +112,7 @@ export const Table = <T extends { id: string | number }>({
 							<TableRow>
 								{columns.map((column) => (
 									<TableCell
-										key={String(column.key)} // Convertimos a String para evitar ts(2731)
+										key={String(column.key)}
 										sx={{
 											backgroundColor: "#f8fafc",
 											color: "#475569",
