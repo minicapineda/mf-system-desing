@@ -1,12 +1,9 @@
 import type { Invoices } from "mf-types";
 import { useEffect, useState } from "react";
-import {
-	createBrowserRouter,
-	Navigate,
-	useSearchParams,
-} from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { ClientesPage } from "src/features/panel/pages/ClientesPages";
 import { ROUTES, Table } from "src/shared";
+import { useTableParams } from "src/shared/hooks/useTableParams";
 import { MainLayout } from "../../features/panel/pages/MainLayout";
 import { LazyWrapper } from "../../shared/layouts";
 
@@ -82,17 +79,13 @@ const invoicesData: Invoices[] = [
 		fecha: "2026-04-05",
 	},
 ];
-
+const DEFAULT_PAGE_SIZE = 10;
 const InvoicesContainer = () => {
-	const [searchParams, setSearchParams] = useSearchParams();
+	const tableParams = useTableParams(DEFAULT_PAGE_SIZE);
+	const { page, rowsPerPage, searchTerm } = tableParams;
 	const [apiData, setApiData] = useState<Invoices[]>([]);
 	const [totalCount, setTotalCount] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
-
-	const urlPage = Number(searchParams.get("page") || "1");
-	const page = Math.max(0, urlPage - 1);
-	const rowsPerPage = Number(searchParams.get("rows") || "5");
-	const searchTerm = searchParams.get("search") || "";
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -110,22 +103,17 @@ const InvoicesContainer = () => {
 			setTotalCount(allFiltered.length);
 			setIsLoading(false);
 		};
+
 		fetchData();
 	}, [page, rowsPerPage, searchTerm]);
-
-	const updateQueryParams = (params: Record<string, string | number>) => {
-		const newParams = new URLSearchParams(searchParams);
-		Object.entries(params).forEach(([key, value]) => {
-			if (value === "" || value === undefined) newParams.delete(key);
-			else newParams.set(key, String(value));
-		});
-		setSearchParams(newParams);
-	};
 
 	return (
 		<div style={{ padding: "24px" }}>
 			<Table<Invoices>
 				data={apiData}
+				totalCount={totalCount}
+				loading={isLoading}
+				{...tableParams}
 				columns={[
 					{ key: "codigo", header: "Referencia" },
 					{ key: "cliente", header: "Nombre Cliente" },
@@ -140,15 +128,6 @@ const InvoicesContainer = () => {
 						),
 					},
 				]}
-				totalCount={totalCount}
-				page={page}
-				rowsPerPage={rowsPerPage}
-				loading={isLoading}
-				onPageChange={(p: number) => updateQueryParams({ page: p + 1 })}
-				onSearch={(q: string) => updateQueryParams({ search: q, page: 1 })}
-				onRowsPerPageChange={(rpp: number) =>
-					updateQueryParams({ rows: rpp, page: 1 })
-				}
 			/>
 		</div>
 	);
