@@ -1,34 +1,23 @@
-.tableContainer {
+.tablePaper {
     width: 100%;
-    overflow-x: auto;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
+    border: 1px solid #eef2f6;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
 }
 
-.headerCell {
-    background-color: #f8f9fa;
-    font-weight: 700;
-    color: #333;
+.tableHeader {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f4f9;
 }
 
-.row:hover {
-    background-color: #f5f5f5;
+.searchField {
+    width: 250px;
 }
 
-.density_compact .cell {
-    padding: 4px 8px;
-}
-
-.density_normal .cell {
-    padding: 12px 16px;
-}
-
-.density_spaced .cell {
-    padding: 20px 24px;
-}
-
-.loaderCell,
-.emptyCell {
-    color: #666;
-    font-style: italic;
+.tableContainer {
+    max-height: 500px;
 }
