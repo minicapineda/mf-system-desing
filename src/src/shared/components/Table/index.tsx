@@ -161,7 +161,6 @@ export const Table = <T extends { id: string | number }>({
 						</TableHead>
 						<TableBody>
 							{loading ? (
-								// SOLUCIÓN AL ERROR DE BIOME: Generamos IDs únicos basados en la posición pero sin usar el índice directamente como prop 'key'
 								Array.from({ length: rowsPerPage }).map((_, i) => {
 									const rowId = `loading-row-${i}`;
 									return (
