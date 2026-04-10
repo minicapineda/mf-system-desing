@@ -3,11 +3,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import SortIcon from "@mui/icons-material/Sort";
 import {
 	Box,
-	CircularProgress,
 	IconButton,
 	InputAdornment,
 	Table as MuiTable,
 	Paper,
+	Skeleton,
 	StyledEngineProvider,
 	TableBody,
 	TableCell,
@@ -20,8 +20,7 @@ import {
 	Typography,
 } from "@mui/material";
 import type { TableProps } from "mf-types";
-import type React from "react";
-import { type ChangeEvent, useMemo, useState } from "react";
+import React, { type ChangeEvent, useMemo, useState } from "react";
 import styles from "./Table.module.css";
 
 type SortOrder = "asc" | "desc" | null;
@@ -113,7 +112,7 @@ export const Table = <T extends { id: string | number }>({
 							<TableRow>
 								{columns.map((column) => (
 									<TableCell
-										key={column.header}
+										key={String(column.key)} // Convertimos a String para evitar ts(2731)
 										sx={{
 											backgroundColor: "#f8fafc",
 											color: "#475569",
@@ -162,13 +161,26 @@ export const Table = <T extends { id: string | number }>({
 						</TableHead>
 						<TableBody>
 							{loading ? (
-								<TableRow>
-									<TableCell colSpan={columns.length} align="center">
-										<Box py={6}>
-											<CircularProgress size={30} />
-										</Box>
-									</TableCell>
-								</TableRow>
+								// SOLUCIÓN AL ERROR DE BIOME: Generamos IDs únicos basados en la posición pero sin usar el índice directamente como prop 'key'
+								Array.from({ length: rowsPerPage }).map((_, i) => {
+									const rowId = `loading-row-${i}`;
+									return (
+										<TableRow key={rowId}>
+											{columns.map((column) => (
+												<TableCell
+													key={`${rowId}-${String(column.key)}`}
+													sx={{ padding: "16px" }}
+												>
+													<Skeleton
+														variant="text"
+														height={20}
+														animation="wave"
+													/>
+												</TableCell>
+											))}
+										</TableRow>
+									);
+								})
 							) : processedData.length === 0 ? (
 								<TableRow>
 									<TableCell colSpan={columns.length} align="center">
@@ -211,11 +223,14 @@ export const Table = <T extends { id: string | number }>({
 					count={searchTerm ? processedData.length : totalCount || data.length}
 					rowsPerPage={rowsPerPage}
 					page={page}
-					onPageChange={(_, newPage: number) => onPageChange?.(newPage)}
+					onPageChange={(_, p: number) => onPageChange?.(p)}
 					onRowsPerPageChange={(e: ChangeEvent<HTMLInputElement>) =>
 						onRowsPerPageChange?.(parseInt(e.target.value, 10))
 					}
 					labelRowsPerPage="Filas:"
+					labelDisplayedRows={({ from, to, count }) =>
+						`${from}-${to} de ${count !== -1 ? count : `más de ${to}`}`
+					}
 				/>
 			</Paper>
 		</StyledEngineProvider>

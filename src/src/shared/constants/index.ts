@@ -1,6 +1,6 @@
 export const ROUTES = {
 	HOME: "/",
 	CLIENTES: "/clientes",
-	FACTURAS: "/facturas",
+	INVOICES: "/facturas",
 	CONFIGURACION: "/configuracion",
 } as const;

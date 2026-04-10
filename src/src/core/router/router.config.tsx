@@ -1,5 +1,5 @@
-import type { Factura } from "mf-types";
-import { useMemo } from "react";
+import type { Invoices } from "mf-types";
+import { useEffect, useState } from "react";
 import {
 	createBrowserRouter,
 	Navigate,
@@ -10,7 +10,7 @@ import { ROUTES, Table } from "src/shared";
 import { MainLayout } from "../../features/panel/pages/MainLayout";
 import { LazyWrapper } from "../../shared/layouts";
 
-const facturasData: Factura[] = [
+const invoicesData: Invoices[] = [
 	{
 		id: 1,
 		codigo: "FAC-001",
@@ -83,44 +83,49 @@ const facturasData: Factura[] = [
 	},
 ];
 
-const FacturasContainer = () => {
+const InvoicesContainer = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [apiData, setApiData] = useState<Invoices[]>([]);
+	const [totalCount, setTotalCount] = useState(0);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const urlPage = Number(searchParams.get("page") || "1");
 	const page = Math.max(0, urlPage - 1);
-
 	const rowsPerPage = Number(searchParams.get("rows") || "5");
 	const searchTerm = searchParams.get("search") || "";
+
+	useEffect(() => {
+		const fetchData = async () => {
+			setIsLoading(true);
+			await new Promise((resolve) => setTimeout(resolve, 800));
+
+			const allFiltered = invoicesData.filter(
+				(f) =>
+					f.cliente.toLowerCase().includes(searchTerm.toLowerCase()) ||
+					f.codigo.toLowerCase().includes(searchTerm.toLowerCase()),
+			);
+
+			const start = page * rowsPerPage;
+			setApiData(allFiltered.slice(start, start + rowsPerPage));
+			setTotalCount(allFiltered.length);
+			setIsLoading(false);
+		};
+		fetchData();
+	}, [page, rowsPerPage, searchTerm]);
 
 	const updateQueryParams = (params: Record<string, string | number>) => {
 		const newParams = new URLSearchParams(searchParams);
 		Object.entries(params).forEach(([key, value]) => {
-			if (value === "" || value === undefined) {
-				newParams.delete(key);
-			} else {
-				newParams.set(key, String(value));
-			}
+			if (value === "" || value === undefined) newParams.delete(key);
+			else newParams.set(key, String(value));
 		});
 		setSearchParams(newParams);
 	};
 
-	const filteredData = useMemo(() => {
-		return facturasData.filter(
-			(f) =>
-				f.cliente.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				f.codigo.toLowerCase().includes(searchTerm.toLowerCase()),
-		);
-	}, [searchTerm]);
-
-	const paginatedData = useMemo(() => {
-		const start = page * rowsPerPage;
-		return filteredData.slice(start, start + rowsPerPage);
-	}, [filteredData, page, rowsPerPage]);
-
 	return (
 		<div style={{ padding: "24px" }}>
-			<Table<Factura>
-				data={paginatedData}
+			<Table<Invoices>
+				data={apiData}
 				columns={[
 					{ key: "codigo", header: "Referencia" },
 					{ key: "cliente", header: "Nombre Cliente" },
@@ -128,26 +133,22 @@ const FacturasContainer = () => {
 					{
 						key: "total",
 						header: "Monto Total",
-						render: (row: Factura) => (
+						render: (row: Invoices) => (
 							<span style={{ fontWeight: "bold", color: "#2c3e50" }}>
 								{row.total}
 							</span>
 						),
 					},
 				]}
-				totalCount={filteredData.length}
-				page={page} // La tabla sigue recibiendo el índice 0 para MUI
+				totalCount={totalCount}
+				page={page}
 				rowsPerPage={rowsPerPage}
-				// 2. ENVIAR A LA URL: Al cambiar, sumamos 1 para que el usuario vea "page=1"
-				onPageChange={(newPage: number) => {
-					updateQueryParams({ page: newPage + 1 });
-				}}
-				onSearch={(query: string) => {
-					updateQueryParams({ search: query, page: 1 }); // Reset a página 1 humana
-				}}
-				onRowsPerPageChange={(rpp: number) => {
-					updateQueryParams({ rows: rpp, page: 1 });
-				}}
+				loading={isLoading}
+				onPageChange={(p: number) => updateQueryParams({ page: p + 1 })}
+				onSearch={(q: string) => updateQueryParams({ search: q, page: 1 })}
+				onRowsPerPageChange={(rpp: number) =>
+					updateQueryParams({ rows: rpp, page: 1 })
+				}
 			/>
 		</div>
 	);
@@ -175,10 +176,10 @@ export const router = createBrowserRouter([
 				),
 			},
 			{
-				path: ROUTES.FACTURAS.replace("/", ""),
+				path: ROUTES.INVOICES.replace("/", ""),
 				element: (
 					<LazyWrapper>
-						<FacturasContainer />
+						<InvoicesContainer />
 					</LazyWrapper>
 				),
 			},
