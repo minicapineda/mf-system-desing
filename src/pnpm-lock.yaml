@@ -20,9 +20,6 @@ importers:
       '@mui/material':
         specifier: 6.4.5
         version: 6.4.5(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.4))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.4))(@types/react@19.2.14)(react@19.2.4))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      mf-types:
-        specifier: link:../../packages/mf-types
-        version: link:../../packages/mf-types
       react:
         specifier: 19.2.4
         version: 19.2.4
