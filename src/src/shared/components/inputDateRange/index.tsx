@@ -97,7 +97,7 @@ export const InputDateRange = ({
             boxShadow: "0px 10px 30px rgba(0,0,0,0.15)",
             borderRadius: "12px",
             mt: 1,
-            backgroundColor: "white !important", // Fuerza el fondo del popover
+            backgroundColor: "white !important",
           },
         }}
       >
