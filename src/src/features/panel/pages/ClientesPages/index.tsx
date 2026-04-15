@@ -9,14 +9,16 @@ import {
 import { Form } from "src/shared/components/Form";
 import { Input } from "src/shared/components/Input";
 import { Title } from "src/shared/components/Title";
+import { MyDialog } from "src/shared/components/Dialog";
 import styles from "./clientspages.module.css";
-import type { AutocompleteOption } from "../../../../../../../packages/mf-types/dist";
 import { InputDate } from "src/shared/components/InputDate";
-import type { DateRange } from "../../../../../../../packages/mf-types/src/ui/inputdate/inputdate.types";
+import type { DateRange, AutocompleteOption } from "mf-types";
 
 export const ClientesPage = () => {
   const [loading, setLoading] = useState(true);
   const [seleccion, setSeleccion] = useState<AutocompleteOption | null>(null);
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [formValues, setFormValues] = useState<Record<string, string>>({
     full_name: "",
@@ -24,6 +26,7 @@ export const ClientesPage = () => {
     text: "",
     document: "",
   });
+
   const [rangoEmision, setRangoEmision] = useState<DateRange>({
     start: new Date(),
     end: null,
@@ -49,11 +52,15 @@ export const ClientesPage = () => {
   };
 
   const handleSubmit = (values: Record<string, string>) => {
-    console.log("Submit:", {
+    const data = {
       ...values,
       rango: rangoEmision,
       vencimiento: fechaSimple,
-    });
+      seleccionado: seleccion?.label,
+    };
+
+    console.log("Submit:", data);
+    setIsDialogOpen(true);
   };
 
   return (
@@ -123,6 +130,19 @@ export const ClientesPage = () => {
         totalPages={5}
         onPageChange={(page) => console.log("Página:", page)}
       />
+
+      <MyDialog
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        type="delete"
+        title="¿Eliminar Cliente?"
+        onConfirm={() => {
+          console.log("Eliminado");
+          setIsDialogOpen(false);
+        }}
+      >
+        <p>Esta acción no se puede deshacer.</p>
+      </MyDialog>
     </Box>
   );
 };
