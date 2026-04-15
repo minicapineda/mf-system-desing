@@ -3,6 +3,7 @@ export * from './AutocompleteCustom';
 export * from './Button';
 export * from './Form';
 export * from './Input';
+export * from './InputDate';
 export * from './Loading';
 export * from './Navbar';
 export * from './Pagination';

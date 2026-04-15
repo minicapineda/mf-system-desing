@@ -6,6 +6,7 @@ import { Input } from "src/shared/components/Input";
 import { Title } from "src/shared/components/Title";
 import styles from "./clientspages.module.css";
 import type { AutocompleteOption } from "../../../../../../../packages/mf-types/dist";
+import { InputDate } from "src/shared/components/InputDate";
 
 export const ClientesPage = () => {
   const [loading, setLoading] = useState(true);
@@ -15,6 +16,7 @@ export const ClientesPage = () => {
     email: "",
     document: "",
   });
+  const [fechaEmision, setFechaEmision] = useState<Date | null>(new Date());
 
   const misOpciones = [
     { id: 1, label: "Opción 1" },
@@ -74,6 +76,13 @@ export const ClientesPage = () => {
           value={seleccion}
           onChange={(newValue) => setSeleccion(newValue)}
           placeholder="Escribe para buscar..."
+        />
+
+        <InputDate
+          label="Fecha de Emisión"
+          value={fechaEmision}
+          onChange={(newValue) => setFechaEmision(newValue)}
+          required
         />
         <div className={styles.buttonContainer}>
           <Button label="Registrar Cliente" type="submit" fullWidth />
