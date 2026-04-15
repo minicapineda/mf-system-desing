@@ -22,23 +22,24 @@ import {
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const drawerWidth = 260;
+import type {
+  SidebarProps,
+  SidebarMenuItem,
+} from "../../../../../../packages/mf-types/src/ui/sidebar/sidebar.types";
+import type { ReactNode } from "react";
 
-interface SidebarProps {
-  open: boolean;
-  toggleDrawer: () => void;
-}
+const DRAWER_WIDTH = 260;
 
 export const Sidebar = ({ open, toggleDrawer }: SidebarProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
 
-  const menuItems = [
-    { label: "Dashboard", icon: <DashboardIcon />, path: "/" },
-    { label: "Clientes", icon: <PeopleIcon />, path: "/clientes" },
-    { label: "Facturas", icon: <InvoiceIcon />, path: "/facturas" },
-    { label: "Configuración", icon: <SettingsIcon />, path: "/configuracion" },
+  const menuItems: SidebarMenuItem[] = [
+    { label: "Dashboard", icon: () => <DashboardIcon />, path: "/" },
+    { label: "Clients", icon: () => <PeopleIcon />, path: "/clientes" },
+    { label: "Invoices", icon: () => <InvoiceIcon />, path: "/facturas" },
+    { label: "Settings", icon: () => <SettingsIcon />, path: "/configuracion" },
   ];
 
   const transitionStyle = theme.transitions.create("width", {
@@ -51,13 +52,13 @@ export const Sidebar = ({ open, toggleDrawer }: SidebarProps) => {
       variant="permanent"
       open={open}
       sx={{
-        width: open ? drawerWidth : 70,
+        width: open ? DRAWER_WIDTH : 70,
         flexShrink: 0,
         whiteSpace: "nowrap",
         boxSizing: "border-box",
         transition: transitionStyle,
         "& .MuiDrawer-paper": {
-          width: open ? drawerWidth : 70,
+          width: open ? DRAWER_WIDTH : 70,
           transition: transitionStyle,
           overflowX: "hidden",
           backgroundColor: "#1e1e2f",
@@ -84,10 +85,13 @@ export const Sidebar = ({ open, toggleDrawer }: SidebarProps) => {
           {open ? <ChevronLeftIcon /> : <MenuIcon />}
         </IconButton>
       </Box>
+
       <Divider sx={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
+
       <List sx={{ mt: 1 }}>
         {menuItems.map((item) => {
           const isActive = location.pathname === item.path;
+
           return (
             <ListItem
               key={item.label}
@@ -118,7 +122,7 @@ export const Sidebar = ({ open, toggleDrawer }: SidebarProps) => {
                       color: "inherit",
                     }}
                   >
-                    {item.icon}
+                    {item.icon() as ReactNode}
                   </ListItemIcon>
                   <ListItemText
                     primary={item.label}

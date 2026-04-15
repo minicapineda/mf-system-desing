@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import { Navbar } from "../../../../shared"; // Ajusta las rutas de importación
+import { Navbar } from "../../../../shared";
 
 import { Sidebar } from "src/shared/components/Sidebar";
 import type { NavItem } from "../../../../../../../packages/mf-types/dist";
