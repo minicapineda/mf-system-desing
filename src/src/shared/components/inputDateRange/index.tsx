@@ -6,10 +6,7 @@ import { Input } from "src/shared/components/Input";
 import "react-calendar/dist/Calendar.css";
 import style from "./inputdaterange.module.css";
 
-import type {
-  DateRange,
-  InputDateProps,
-} from "../../../../../../packages/mf-types/src/ui/inputdate/inputdate.types";
+import type { DateRange, InputDateProps } from "mf-types";
 
 export const InputDateRange = ({
   label,
@@ -119,3 +116,5 @@ export const InputDateRange = ({
     </Box>
   );
 };
+
+export default InputDateRange;
