@@ -64,10 +64,7 @@ export const InputDate = (props: InputDateProps) => {
             "& .MuiOutlinedInput-root": {
               borderRadius: "8px",
               backgroundColor: "white",
-              "&:hover fieldset": { borderColor: "#4caf50" },
-              "&.Mui-focused fieldset": { borderColor: "#4caf50" },
             },
-            "& .MuiInputLabel-root.Mui-focused": { color: "#4caf50" },
           },
         },
       }}

@@ -10,3 +10,4 @@ export * from './Pagination';
 export * from './Sidebar';
 export * from './Table';
 export * from './Title';
+export * from './inputDateRange';
