@@ -32,6 +32,7 @@ export const ClientesPage = () => {
   });
 
   const [fechaSimple, setFechaSimple] = useState<Date | null>(new Date());
+
   const [toastConfig, setToastConfig] = useState<
     Pick<ToastProps, "open" | "message" | "severity">
   >({
@@ -46,11 +47,11 @@ export const ClientesPage = () => {
 
   const handleConfirmRegistration = () => {
     setIsDialogOpen(false);
-
-    showToast("¡Cliente registrado correctamente!", "error");
+    // Cambiado a success para que el toast sea verde
+    showToast("¡Cliente registrado correctamente!", "success");
   };
 
-  const misOpciones = [
+  const misOpciones: AutocompleteOption[] = [
     { id: 1, label: "Opción 1" },
     { id: 2, label: "Opción 2" },
   ];
@@ -103,6 +104,7 @@ export const ClientesPage = () => {
           value={seleccion}
           onChange={(newValue) => setSeleccion(newValue)}
           placeholder="Escribe para buscar..."
+          onAddNew={(name) => console.log("Nuevo cliente:", name)}
         />
 
         <InputDateRange
@@ -119,12 +121,17 @@ export const ClientesPage = () => {
           required
         />
 
+        {/* Mantenemos tu contenedor de estilos original */}
         <div className={styles.buttonContainer} style={{ marginTop: "20px" }}>
           <Button label="Registrar Cliente" type="submit" fullWidth />
         </div>
       </Form>
 
-      <Pagination currentPage={1} totalPages={5} onPageChange={() => {}} />
+      <Pagination
+        currentPage={1}
+        totalPages={5}
+        onPageChange={(page) => console.log("Cambio de página:", page)}
+      />
 
       <MyDialog
         isOpen={isDialogOpen}

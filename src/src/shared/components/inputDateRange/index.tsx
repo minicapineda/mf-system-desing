@@ -5,8 +5,9 @@ import Calendar from "react-calendar";
 import { Input } from "src/shared/components/Input";
 import "react-calendar/dist/Calendar.css";
 import style from "./inputdaterange.module.css";
-
 import type { DateRange, InputDateProps } from "mf-types";
+
+type CalendarValue = Date | [Date | null, Date | null] | null;
 
 export const InputDateRange = ({
   label,
@@ -24,22 +25,29 @@ export const InputDateRange = ({
   };
 
   const handleClose = () => setAnchorEl(null);
+  const isDateRange = (val: any): val is DateRange => {
+    return val && typeof val === "object" && "start" in val;
+  };
 
-  const handleCalendarChange = (newVal: any) => {
-    if (Array.isArray(newVal) && newVal[0] && newVal[1]) {
-      onChange({ start: newVal[0], end: newVal[1] } as DateRange);
-      handleClose();
+  const handleCalendarChange = (newVal: CalendarValue) => {
+    if (Array.isArray(newVal)) {
+      const [start, end] = newVal;
+      if (start && end) {
+        onChange({ start, end } as DateRange);
+        handleClose();
+      }
     } else if (newVal instanceof Date) {
       onChange({ start: newVal, end: null } as DateRange);
     }
   };
 
-  const displayValue = () => {
-    const val = value as any;
-    if (val?.start && val?.end) {
-      return `${val.start.toLocaleDateString()} - ${val.end.toLocaleDateString()}`;
+  const displayValue = (): string => {
+    if (isDateRange(value)) {
+      if (value.start && value.end) {
+        return `${value.start.toLocaleDateString()} - ${value.end.toLocaleDateString()}`;
+      }
+      if (value.start) return value.start.toLocaleDateString();
     }
-    if (val?.start) return val.start.toLocaleDateString();
     return "";
   };
 
@@ -47,21 +55,7 @@ export const InputDateRange = ({
     <Box sx={{ width: "100%", position: "relative" }}>
       <Box
         onClick={handleClick}
-        sx={{
-          cursor: "pointer",
-          position: "relative",
-          "& .MuiOutlinedInput-root": {
-            backgroundColor: "white !important",
-            paddingRight: "40px",
-            "& fieldset": {
-              borderColor: error ? "#f44336" : "rgba(0, 0, 0, 0.23)",
-            },
-          },
-          "& .MuiInputBase-input": {
-            color: "black !important",
-            WebkitTextFillColor: "black !important",
-          },
-        }}
+        sx={{ cursor: "pointer", position: "relative" }}
       >
         <Input
           name="range-display"
@@ -74,14 +68,12 @@ export const InputDateRange = ({
           helperText={helperText}
           placeholder="DD/MM/YYYY"
         />
-
         <CalendarMonthIcon
           sx={{
             position: "absolute",
             right: "12px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            color: "rgba(0, 0, 0, 0.54)",
+            top: "20px",
+            color: "gray",
             pointerEvents: "none",
           }}
         />
@@ -92,23 +84,24 @@ export const InputDateRange = ({
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-        PaperProps={{
-          sx: {
-            boxShadow: "0px 10px 30px rgba(0,0,0,0.15)",
-            borderRadius: "12px",
-            mt: 1,
-            backgroundColor: "white !important",
+        slotProps={{
+          paper: {
+            sx: {
+              boxShadow: "0px 10px 30px rgba(0,0,0,0.15)",
+              borderRadius: "12px",
+              mt: 1,
+            },
           },
         }}
       >
         <Box className={style.calendarContainer}>
           <Calendar
-            onChange={handleCalendarChange}
+            onChange={(val) => handleCalendarChange(val as CalendarValue)}
             selectRange={true}
             value={
-              (value as any)?.start && (value as any)?.end
-                ? [(value as any).start, (value as any).end]
-                : (value as any)?.start || new Date()
+              isDateRange(value)
+                ? [value.start, value.end || value.start]
+                : (value as Date) || new Date()
             }
           />
         </Box>

@@ -31,7 +31,7 @@ export const Table = <T extends { id: string | number }>({
   loading = false,
   emptyMessage = "No se encontraron datos",
   totalCount = 0,
-  page = 0,
+  page = 1,
   rowsPerPage = 10,
   onPageChange,
   onRowsPerPageChange,
@@ -42,6 +42,7 @@ export const Table = <T extends { id: string | number }>({
 
   const processedData = useMemo<T[]>(() => {
     let result = [...data];
+
     if (searchTerm) {
       result = result.filter((row) =>
         Object.values(row).some((val) =>
@@ -49,16 +50,15 @@ export const Table = <T extends { id: string | number }>({
         ),
       );
     }
+
     if (sortDirection) {
       result.sort((a, b) => {
-        const itemA = a as Record<string, unknown>;
-        const itemB = b as Record<string, unknown>;
-        if (
-          typeof itemA.fecha === "string" &&
-          typeof itemB.fecha === "string"
-        ) {
-          const dateA = new Date(itemA.fecha).getTime();
-          const dateB = new Date(itemB.fecha).getTime();
+        const valA = (a as Record<string, unknown>).fecha;
+        const valB = (b as Record<string, unknown>).fecha;
+
+        if (typeof valA === "string" && typeof valB === "string") {
+          const dateA = new Date(valA).getTime();
+          const dateB = new Date(valB).getTime();
           return sortDirection === "asc" ? dateA - dateB : dateB - dateA;
         }
         return 0;
@@ -71,37 +71,38 @@ export const Table = <T extends { id: string | number }>({
     <StyledEngineProvider injectFirst>
       <Paper elevation={0} className={styles.tablePaper}>
         <Box className={styles.tableHeader}>
-          <Typography variant="subtitle1" fontWeight={700}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
             Listado de Registros
           </Typography>
           <TextField
             size="small"
             placeholder="Buscar..."
             value={searchTerm}
-            className={styles.searchField}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setSearchTerm(e.target.value);
               onSearch?.(e.target.value);
             }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon fontSize="small" />
-                </InputAdornment>
-              ),
-              endAdornment: searchTerm && (
-                <InputAdornment position="end">
-                  <IconButton
-                    size="small"
-                    onClick={() => {
-                      setSearchTerm("");
-                      onSearch?.("");
-                    }}
-                  >
-                    <ClearIcon fontSize="small" />
-                  </IconButton>
-                </InputAdornment>
-              ),
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon fontSize="small" />
+                  </InputAdornment>
+                ),
+                endAdornment: searchTerm && (
+                  <InputAdornment position="end">
+                    <IconButton
+                      size="small"
+                      onClick={() => {
+                        setSearchTerm("");
+                        onSearch?.("");
+                      }}
+                    >
+                      <ClearIcon fontSize="small" />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
             }}
           />
         </Box>
@@ -113,58 +114,31 @@ export const Table = <T extends { id: string | number }>({
                 {columns.map((column) => (
                   <TableCell
                     key={String(column.key)}
-                    sx={{
-                      backgroundColor: "#f8fafc",
-                      color: "#475569",
-                      fontWeight: 600,
-                      fontSize: "0.75rem",
-                      textTransform: "uppercase",
-                      borderBottom: "2px solid #f1f4f9",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
+                    sx={{ backgroundColor: "#f8fafc", fontWeight: 600 }}
                   >
-                    <Box display="flex" alignItems="center">
-                      <Typography
-                        variant="inherit"
-                        sx={{
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <Typography variant="inherit" noWrap>
                         {column.header}
                       </Typography>
                       {column.key === "fecha" && (
-                        <Tooltip
-                          title={
-                            sortDirection === "asc" ? "Recientes" : "Antiguos"
+                        <IconButton
+                          size="small"
+                          onClick={() =>
+                            setSortDirection(
+                              sortDirection === "asc" ? "desc" : "asc",
+                            )
                           }
                         >
-                          <IconButton
-                            size="small"
-                            onClick={() =>
-                              setSortDirection(
-                                sortDirection === "asc" ? "desc" : "asc",
-                              )
-                            }
+                          <SortIcon
+                            fontSize="small"
                             sx={{
-                              ml: 0.5,
-                              color: sortDirection ? "primary.main" : "inherit",
+                              transform:
+                                sortDirection === "desc"
+                                  ? "rotate(180deg)"
+                                  : "none",
                             }}
-                          >
-                            <SortIcon
-                              fontSize="small"
-                              sx={{
-                                transform:
-                                  sortDirection === "desc"
-                                    ? "rotate(180deg)"
-                                    : "none",
-                              }}
-                            />
-                          </IconButton>
-                        </Tooltip>
+                          />
+                        </IconButton>
                       )}
                     </Box>
                   </TableCell>
@@ -173,66 +147,43 @@ export const Table = <T extends { id: string | number }>({
             </TableHead>
             <TableBody>
               {loading ? (
-                Array.from({ length: rowsPerPage }).map((_, i) => {
-                  const rowId = `loading-row-${i}`;
-                  return (
-                    <TableRow key={rowId}>
-                      {columns.map((column) => (
-                        <TableCell
-                          key={`${rowId}-${String(column.key)}`}
-                          sx={{ padding: "16px" }}
-                        >
-                          <Skeleton
-                            variant="text"
-                            height={20}
-                            animation="wave"
-                          />
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  );
-                })
+                Array.from({ length: rowsPerPage }).map((_, i) => (
+                  <TableRow key={`loading-${i}`}>
+                    {columns.map((col) => (
+                      <TableCell key={`loading-${i}-${String(col.key)}`}>
+                        <Skeleton height={20} />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
               ) : processedData.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={columns.length} align="center">
-                    <Box py={4} color="text.secondary">
+                    <Box sx={{ py: 4, color: "text.secondary" }}>
                       {emptyMessage}
                     </Box>
                   </TableCell>
                 </TableRow>
               ) : (
                 processedData.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    hover
-                    sx={{ "&:hover": { backgroundColor: "#f1f5f9" } }}
-                  >
+                  <TableRow key={row.id} hover>
                     {columns.map((column) => {
-                      const value = row[column.key as keyof T];
-                      const content = column.render
-                        ? (column.render(row) as React.ReactNode)
-                        : (value as React.ReactNode);
+                      const rawValue = row[column.key as keyof T];
+                      const content = (
+                        column.render ? column.render(row) : rawValue
+                      ) as React.ReactNode;
 
                       return (
                         <TableCell
                           key={`${row.id}-${String(column.key)}`}
                           sx={{
-                            padding: "12px 16px",
-                            fontSize: "0.875rem",
-                            color: "#1e293b",
-
                             maxWidth: 0,
-                            width: "auto",
-                            whiteSpace: "nowrap",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
                           }}
                         >
-                          <Tooltip
-                            title={String(value)}
-                            arrow
-                            disableInteractive
-                          >
+                          <Tooltip title={String(rawValue ?? "")} arrow>
                             <span>{content}</span>
                           </Tooltip>
                         </TableCell>
@@ -246,18 +197,13 @@ export const Table = <T extends { id: string | number }>({
         </TableContainer>
 
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={searchTerm ? processedData.length : totalCount || data.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={(_, p: number) => onPageChange?.(p)}
-          onRowsPerPageChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onPageChange={(_, p) => onPageChange?.(p)}
+          onRowsPerPageChange={(e) =>
             onRowsPerPageChange?.(parseInt(e.target.value, 10))
-          }
-          labelRowsPerPage="Filas:"
-          labelDisplayedRows={({ from, to, count }) =>
-            `${from}-${to} de ${count !== -1 ? count : `más de ${to}`}`
           }
         />
       </Paper>

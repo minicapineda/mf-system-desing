@@ -1,14 +1,12 @@
 import {
   Autocomplete,
-  Box,
-  Button,
-  CircularProgress,
-  Divider,
-  Paper,
   TextField,
+  createFilterOptions,
+  Box,
+  Divider,
 } from "@mui/material";
 import type { AutocompleteOption, AutocompleteProps } from "mf-types";
-import { useState } from "react";
+import { useState, type SyntheticEvent, type HTMLAttributes } from "react";
 import { AddOptionModal } from "../AddOptionModal";
 
 export const AutocompleteCustom = <T extends AutocompleteOption>({
@@ -19,62 +17,93 @@ export const AutocompleteCustom = <T extends AutocompleteOption>({
   value,
   placeholder,
   addNewText = "+ Añadir nuevo",
-  ...props
+  ...rest
 }: AutocompleteProps<T>) => {
   const [inputValue, setInputValue] = useState("");
   const [openModal, setOpenModal] = useState(false);
-  const [loading] = useState(false);
+
+  // Filtro tipado con T para evitar errores de compilación
+  const filter = createFilterOptions<T>();
 
   return (
     <>
       <Autocomplete
-        {...props}
+        {...rest}
         options={options}
         value={value || null}
-        loading={loading}
-        getOptionLabel={(option) =>
-          typeof option === "string" ? option : (option?.label ?? "")
-        }
+        // handleHomeEndKeys y clearOnBlur ayudan a que el comportamiento sea más fluido
+        handleHomeEndKeys
+        filterOptions={(options, params) => {
+          const filtered = filter(options, params);
+
+          // Agregamos SIEMPRE la opción al final del array filtrado
+          // Esto garantiza que aparezca al abrir el menú Y al escribir
+          filtered.push({
+            id: "add-new-button",
+            label: addNewText,
+            isNew: true,
+            inputValue: params.inputValue,
+          } as unknown as T);
+
+          return filtered;
+        }}
+        getOptionLabel={(option) => {
+          if (typeof option === "string") return option;
+          const opt = option as any;
+          // Evitamos que el texto de la opción especial se escriba en el input al seleccionarla
+          if (opt.isNew) return inputValue;
+          return option.label ?? "";
+        }}
         isOptionEqualToValue={(option, val) => option.id === val.id}
-        onInputChange={(_, newInput) => setInputValue(newInput)}
-        onChange={(_, newValue) => onChange(newValue ?? null)}
-        noOptionsText="Sin resultados"
-        PaperComponent={(paperProps) => (
-          <Paper {...paperProps}>
-            {paperProps.children}
+        onInputChange={(_: SyntheticEvent, newInput: string) =>
+          setInputValue(newInput)
+        }
+        onChange={(_: SyntheticEvent, newValue: T | null) => {
+          const val = newValue as any;
+          if (val && val.isNew) {
+            setOpenModal(true);
+          } else {
+            onChange(newValue);
+          }
+        }}
+        renderOption={(props, option) => {
+          // Solución al error de la 'key' mediante casting de props
+          const { key, ...optionProps } =
+            props as HTMLAttributes<HTMLLIElement> & { key: string };
+          const opt = option as any;
 
-            <Divider />
-
-            <Box sx={{ p: 1 }}>
-              <Button
-                fullWidth
-                color="primary"
-                variant="text"
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  setOpenModal(true);
-                }}
+          if (opt.isNew) {
+            return (
+              <li
+                key={key}
+                {...optionProps}
+                style={{ display: "block", padding: 0 }}
               >
-                {addNewText}
-              </Button>
-            </Box>
-          </Paper>
-        )}
+                <Divider />
+                <Box
+                  sx={{
+                    fontWeight: "bold",
+                    color: "#1976d2",
+                    px: 2,
+                    py: 1,
+                    "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.04)" },
+                  }}
+                >
+                  {opt.label} {opt.inputValue ? `"${opt.inputValue}"` : ""}
+                </Box>
+              </li>
+            );
+          }
+
+          return (
+            <li key={key} {...optionProps}>
+              {option.label}
+            </li>
+          );
+        }}
+        noOptionsText="Sin resultados"
         renderInput={(params) => (
-          <TextField
-            {...params}
-            label={label}
-            placeholder={placeholder}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {loading && <CircularProgress size={18} />}
-                  {params.InputProps.endAdornment}
-                </>
-              ),
-            }}
-          />
+          <TextField {...params} label={label} placeholder={placeholder} />
         )}
       />
 
@@ -83,15 +112,11 @@ export const AutocompleteCustom = <T extends AutocompleteOption>({
         initialValue={inputValue}
         onClose={() => setOpenModal(false)}
         onSave={(name) => {
-          const newOption = {
-            id: name,
-            label: name,
-          } as T;
-
           onAddNew?.(name);
+          const newOption = { id: name, label: name } as T;
           onChange(newOption);
-
           setOpenModal(false);
+          setInputValue("");
         }}
       />
     </>
