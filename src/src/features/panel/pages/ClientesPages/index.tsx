@@ -12,8 +12,6 @@ import { Title } from "src/shared/components/Title";
 import { MyDialog } from "src/shared/components/Dialog";
 import styles from "./clientspages.module.css";
 import { InputDate } from "src/shared/components/InputDate";
-
-// IMPORTAMOS TUS TIPOS ORIGINALES
 import type { DateRange, AutocompleteOption, ToastProps } from "mf-types";
 import Toast from "src/shared/components/Toast";
 
