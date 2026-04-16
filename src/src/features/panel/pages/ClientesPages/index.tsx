@@ -12,14 +12,15 @@ import { Title } from "src/shared/components/Title";
 import { MyDialog } from "src/shared/components/Dialog";
 import styles from "./clientspages.module.css";
 import { InputDate } from "src/shared/components/InputDate";
-import type { DateRange, AutocompleteOption } from "mf-types";
+
+// IMPORTAMOS TUS TIPOS ORIGINALES
+import type { DateRange, AutocompleteOption, ToastProps } from "mf-types";
+import Toast from "src/shared/components/Toast";
 
 export const ClientesPage = () => {
   const [loading, setLoading] = useState(true);
   const [seleccion, setSeleccion] = useState<AutocompleteOption | null>(null);
-
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   const [formValues, setFormValues] = useState<Record<string, string>>({
     full_name: "",
     email: "",
@@ -33,6 +34,23 @@ export const ClientesPage = () => {
   });
 
   const [fechaSimple, setFechaSimple] = useState<Date | null>(new Date());
+  const [toastConfig, setToastConfig] = useState<
+    Pick<ToastProps, "open" | "message" | "severity">
+  >({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  const showToast = (message: string, severity: ToastProps["severity"]) => {
+    setToastConfig({ open: true, message, severity });
+  };
+
+  const handleConfirmRegistration = () => {
+    setIsDialogOpen(false);
+
+    showToast("¡Cliente registrado correctamente!", "error");
+  };
 
   const misOpciones = [
     { id: 1, label: "Opción 1" },
@@ -45,21 +63,11 @@ export const ClientesPage = () => {
   }, []);
 
   const handleChange = (field: string, value: string) => {
-    setFormValues((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setFormValues((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = (values: Record<string, string>) => {
-    const data = {
-      ...values,
-      rango: rangoEmision,
-      vencimiento: fechaSimple,
-      seleccionado: seleccion?.label,
-    };
-
-    console.log("Submit:", data);
+    console.log("Iniciando registro para:", values.full_name);
     setIsDialogOpen(true);
   };
 
@@ -80,13 +88,6 @@ export const ClientesPage = () => {
           label="Correo"
           value={formValues.email}
           onChange={(v: string) => handleChange("email", v)}
-        />
-
-        <Input
-          name="text"
-          label="Texto"
-          value={formValues.text}
-          onChange={(v: string) => handleChange("text", v)}
         />
 
         <Input
@@ -125,24 +126,28 @@ export const ClientesPage = () => {
         </div>
       </Form>
 
-      <Pagination
-        currentPage={1}
-        totalPages={5}
-        onPageChange={(page) => console.log("Página:", page)}
-      />
+      <Pagination currentPage={1} totalPages={5} onPageChange={() => {}} />
 
       <MyDialog
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
-        type="delete"
-        title="¿Eliminar Cliente?"
-        onConfirm={() => {
-          console.log("Eliminado");
-          setIsDialogOpen(false);
-        }}
+        type="form"
+        title="Confirmar Registro"
+        confirmLabel="Registrar"
+        onConfirm={handleConfirmRegistration}
       >
-        <p>Esta acción no se puede deshacer.</p>
+        <p>
+          ¿Deseas confirmar el registro de{" "}
+          <strong>{formValues.full_name}</strong>?
+        </p>
       </MyDialog>
+
+      <Toast
+        open={toastConfig.open}
+        message={toastConfig.message}
+        severity={toastConfig.severity}
+        onClose={() => setToastConfig({ ...toastConfig, open: false })}
+      />
     </Box>
   );
 };
