@@ -18,7 +18,7 @@ export const MyDialog: React.FC<React.PropsWithChildren<CustomDialogProps>> = ({
   children,
   confirmLabel,
   cancelLabel = "Cancelar",
-  maxWidth = "sm",
+  maxWidth = "xs",
   fullWidth = true,
   isLoading = false,
   ...rest
