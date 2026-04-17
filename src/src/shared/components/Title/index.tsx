@@ -31,3 +31,5 @@ export const Title = ({
     </Typography>
   );
 };
+
+export default Title;

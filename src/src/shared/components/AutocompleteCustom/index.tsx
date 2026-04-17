@@ -21,8 +21,6 @@ export const AutocompleteCustom = <T extends AutocompleteOption>({
 }: AutocompleteProps<T>) => {
   const [inputValue, setInputValue] = useState("");
   const [openModal, setOpenModal] = useState(false);
-
-  // Filtro tipado con T para evitar errores de compilación
   const filter = createFilterOptions<T>();
 
   return (
@@ -31,13 +29,9 @@ export const AutocompleteCustom = <T extends AutocompleteOption>({
         {...rest}
         options={options}
         value={value || null}
-        // handleHomeEndKeys y clearOnBlur ayudan a que el comportamiento sea más fluido
         handleHomeEndKeys
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
-
-          // Agregamos SIEMPRE la opción al final del array filtrado
-          // Esto garantiza que aparezca al abrir el menú Y al escribir
           filtered.push({
             id: "add-new-button",
             label: addNewText,
@@ -50,7 +44,6 @@ export const AutocompleteCustom = <T extends AutocompleteOption>({
         getOptionLabel={(option) => {
           if (typeof option === "string") return option;
           const opt = option as any;
-          // Evitamos que el texto de la opción especial se escriba en el input al seleccionarla
           if (opt.isNew) return inputValue;
           return option.label ?? "";
         }}
@@ -67,7 +60,6 @@ export const AutocompleteCustom = <T extends AutocompleteOption>({
           }
         }}
         renderOption={(props, option) => {
-          // Solución al error de la 'key' mediante casting de props
           const { key, ...optionProps } =
             props as HTMLAttributes<HTMLLIElement> & { key: string };
           const opt = option as any;
@@ -122,3 +114,4 @@ export const AutocompleteCustom = <T extends AutocompleteOption>({
     </>
   );
 };
+export default AutocompleteCustom;

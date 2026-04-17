@@ -84,3 +84,4 @@ export const MyDialog: React.FC<React.PropsWithChildren<CustomDialogProps>> = ({
     </MuiDialog>
   );
 };
+export default MyDialog;

@@ -101,3 +101,5 @@ export const InputDate = (props: InputDateProps) => {
     </LocalizationProvider>
   );
 };
+
+export default InputDate;

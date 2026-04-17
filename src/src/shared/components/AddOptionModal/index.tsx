@@ -75,3 +75,4 @@ export const AddOptionModal = ({
     </Modal>
   );
 };
+export default AddOptionModal;

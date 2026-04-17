@@ -14,6 +14,7 @@ import styles from "./clientspages.module.css";
 import { InputDate } from "src/shared/components/InputDate";
 import type { DateRange, AutocompleteOption, ToastProps } from "mf-types";
 import Toast from "src/shared/components/Toast";
+import CustomModal from "src/shared/components/CustomModal";
 
 export const ClientesPage = () => {
   const [loading, setLoading] = useState(true);
@@ -132,6 +133,8 @@ export const ClientesPage = () => {
         totalPages={5}
         onPageChange={(page) => console.log("Cambio de página:", page)}
       />
+
+      <CustomModal />
 
       <MyDialog
         isOpen={isDialogOpen}

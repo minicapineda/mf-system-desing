@@ -90,3 +90,5 @@ export const Navbar = ({
     </StyledEngineProvider>
   );
 };
+
+export default Navbar;
