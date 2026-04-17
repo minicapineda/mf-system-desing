@@ -5,7 +5,7 @@ import {
 	StyledEngineProvider,
 	ThemeProvider,
 } from "@mui/material";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { Invoices, TableColumn } from "mf-types";
 import { useMemo, useState } from "react";
 import { Table } from "./index";
