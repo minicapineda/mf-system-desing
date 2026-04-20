@@ -26,6 +26,8 @@ export const ClientesPage = () => {
     email: "",
     text: "",
     document: "",
+    last_name: "",
+    observations: "",
   });
 
   const [rangoEmision, setRangoEmision] = useState<DateRange>({
@@ -171,10 +173,10 @@ export const ClientesPage = () => {
             onChange={(v: string) => handleChange("text", v)}
           />
           <Input
-            name="text"
+            name="last_name"
             label="Apellido"
-            value={formValues.text}
-            onChange={(v: string) => handleChange("text", v)}
+            value={formValues.last_name}
+            onChange={(v: string) => handleChange("last_name", v)}
           />
           <Input
             name="document"
@@ -184,10 +186,10 @@ export const ClientesPage = () => {
           />
 
           <Input
-            name="text"
+            name="observations"
             label="Observaciones"
-            value={formValues.text}
-            onChange={(v: string) => handleChange("text", v)}
+            value={formValues.observations}
+            onChange={(v: string) => handleChange("observations", v)}
           />
         </Form>
       </CustomModal>
