@@ -1,29 +1,42 @@
 .form_container {
     border-radius: 12px;
     overflow: hidden;
-
 }
 
-.content_wrapper {
+.padding_container {
+    padding: 32px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 32px;
+    gap: 24px;
 
 }
 
-.skeleton_title {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.skeleton_input_wrapper {
+.title_container {
     display: flex;
     justify-content: center;
     width: 100%;
 }
 
-.skeleton_input {
-    max-width: 300px;
+.grid_layout {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.footer_container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
     width: 100%;
+    margin-top: 8px;
+}
+
+.skeleton_title {
+    margin: 0 auto 16px auto;
+}
+
+@media (max-width: 600px) {
+    .grid_layout {
+        grid-template-columns: 1fr;
+    }
 }
