@@ -165,6 +165,18 @@ export const ClientesPage = () => {
 
         <Form isLoading={loading} onSubmit={handleSubmit}>
           <Input
+            name="text"
+            label="Nombre"
+            value={formValues.text}
+            onChange={(v: string) => handleChange("text", v)}
+          />
+          <Input
+            name="text"
+            label="Apellido"
+            value={formValues.text}
+            onChange={(v: string) => handleChange("text", v)}
+          />
+          <Input
             name="document"
             label="Número de Documento"
             value={formValues.document}

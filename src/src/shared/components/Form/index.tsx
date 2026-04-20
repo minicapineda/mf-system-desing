@@ -68,7 +68,7 @@ export const Form: FC<PropsWithChildren<FormComponentProps>> = ({
   }
 
   return (
-    <Paper className={styles.form_container}>
+    <Box className={styles.form_container}>
       <Box className={styles.padding_container}>
         {titleChild && (
           <Box className={styles.title_container}>{titleChild}</Box>
@@ -91,7 +91,7 @@ export const Form: FC<PropsWithChildren<FormComponentProps>> = ({
           <Box className={styles.footer_container}>{footerChildren}</Box>
         )}
       </Box>
-    </Paper>
+    </Box>
   );
 };
 
