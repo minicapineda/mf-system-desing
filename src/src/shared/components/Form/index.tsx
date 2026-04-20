@@ -1,13 +1,14 @@
 import { Box, Paper, Skeleton } from "@mui/material";
 import type { FormComponentProps } from "mf-types";
-import React from "react";
+
 import styles from "./form.module.css";
+import React, { type FC, type PropsWithChildren } from "react";
 
-interface FormProps extends FormComponentProps {
-  children?: React.ReactNode;
-}
-
-export const Form = ({ isLoading = false, onSubmit, children }: FormProps) => {
+export const Form: FC<PropsWithChildren<FormComponentProps>> = ({
+  isLoading = false,
+  onSubmit,
+  children,
+}) => {
   const childrenArray = React.Children.toArray(children);
 
   const titleChild = childrenArray.find((child) => {
@@ -20,15 +21,12 @@ export const Form = ({ isLoading = false, onSubmit, children }: FormProps) => {
 
   const footerChildren = childrenArray.filter((child) => {
     if (!React.isValidElement(child)) return false;
-
     const isButton =
       typeof child.type !== "string" &&
       (child.type as { name?: string }).name === "Button";
-
     const isContainer = (
       child.props as { className?: string }
     )?.className?.includes("buttonContainer");
-
     return isButton || isContainer;
   });
 
@@ -38,26 +36,31 @@ export const Form = ({ isLoading = false, onSubmit, children }: FormProps) => {
 
   if (isLoading) {
     return (
-      <Paper elevation={3} className={styles.form_container}>
+      <Paper className={styles.form_container}>
         <Box className={styles.padding_container}>
-          <Skeleton
-            variant="text"
-            width="50%"
-            height={50}
-            className={styles.skeleton_title}
-          />
+          <Skeleton variant="text" className={styles.skeleton_title} />
           <Box className={styles.grid_layout}>
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton
-                key={`sk-input-${i}`}
-                variant="rounded"
-                width="100%"
-                height={56}
-              />
-            ))}
+            {formBodyChildren.map((child, index) => {
+              if (!React.isValidElement(child)) return null;
+              const { width, className, style } = child.props as {
+                width?: string | number;
+                className?: string;
+                style?: React.CSSProperties;
+              };
+
+              return (
+                <Skeleton
+                  key={`sk-${index}`}
+                  variant="rounded"
+                  width={width || "100%"}
+                  className={`${styles.skeleton_input} ${className || ""}`}
+                  style={style}
+                />
+              );
+            })}
           </Box>
           <Box className={styles.footer_container}>
-            <Skeleton variant="rounded" width={120} height={40} />
+            <Skeleton variant="rounded" className={styles.skeleton_button} />
           </Box>
         </Box>
       </Paper>
@@ -65,7 +68,7 @@ export const Form = ({ isLoading = false, onSubmit, children }: FormProps) => {
   }
 
   return (
-    <Paper elevation={3} className={styles.form_container}>
+    <Paper className={styles.form_container}>
       <Box className={styles.padding_container}>
         {titleChild && (
           <Box className={styles.title_container}>{titleChild}</Box>
