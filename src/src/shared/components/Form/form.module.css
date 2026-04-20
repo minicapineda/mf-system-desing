@@ -1,0 +1,29 @@
+.form_container {
+    border-radius: 12px;
+    overflow: hidden;
+
+}
+
+.content_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 32px;
+
+}
+
+.skeleton_title {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.skeleton_input_wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.skeleton_input {
+    max-width: 300px;
+    width: 100%;
+}

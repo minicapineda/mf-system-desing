@@ -12,8 +12,8 @@ export const Form = ({ isLoading = false, onSubmit, children }: FormProps) => {
     const childrenArray = React.Children.toArray(children);
 
     return (
-      <Paper elevation={3} className={styles.formContainer}>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, p: 4 }}>
+      <Paper elevation={3} className={styles.form_container}>
+        <Box className={styles.content_wrapper}>
           {childrenArray.map((child) => {
             if (!React.isValidElement<{ children?: React.ReactNode }>(child))
               return null;
@@ -31,26 +31,18 @@ export const Form = ({ isLoading = false, onSubmit, children }: FormProps) => {
                   variant="text"
                   width="60%"
                   height={40}
-                  sx={{ mx: "auto" }}
+                  className={styles.skeleton_title}
                 />
               );
             }
 
             if (child.props.children) {
               return (
-                <Box
-                  key={key}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                  }}
-                >
+                <Box key={key} className={styles.skeleton_input_wrapper}>
                   <Skeleton
                     variant="rounded"
-                    width="100%"
                     height={40}
-                    sx={{ maxWidth: "300px" }}
+                    className={styles.skeleton_input}
                   />
                 </Box>
               );
@@ -66,7 +58,7 @@ export const Form = ({ isLoading = false, onSubmit, children }: FormProps) => {
   }
 
   return (
-    <Paper elevation={3} className={styles.formContainer}>
+    <Paper elevation={3} className={styles.form_container}>
       <Box
         component="form"
         onSubmit={(e) => {
@@ -75,7 +67,7 @@ export const Form = ({ isLoading = false, onSubmit, children }: FormProps) => {
           const values = Object.fromEntries(formData.entries());
           onSubmit(values as Record<string, string>);
         }}
-        sx={{ display: "flex", flexDirection: "column", gap: 2, p: 4 }}
+        className={styles.content_wrapper}
       >
         {children}
       </Box>

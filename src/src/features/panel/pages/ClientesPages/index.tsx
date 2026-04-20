@@ -14,12 +14,13 @@ import styles from "./clientspages.module.css";
 import { InputDate } from "src/shared/components/InputDate";
 import type { DateRange, AutocompleteOption, ToastProps } from "mf-types";
 import Toast from "src/shared/components/Toast";
-import CustomModal from "src/shared/components/CustomModal";
+import { CustomModal } from "src/shared/components/CustomModal";
 
 export const ClientesPage = () => {
   const [loading, setLoading] = useState(true);
   const [seleccion, setSeleccion] = useState<AutocompleteOption | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
   const [formValues, setFormValues] = useState<Record<string, string>>({
     full_name: "",
     email: "",
@@ -48,7 +49,6 @@ export const ClientesPage = () => {
 
   const handleConfirmRegistration = () => {
     setIsDialogOpen(false);
-    // Cambiado a success para que el toast sea verde
     showToast("¡Cliente registrado correctamente!", "success");
   };
 
@@ -67,8 +67,13 @@ export const ClientesPage = () => {
   };
 
   const handleSubmit = (values: Record<string, string>) => {
-    console.log("Iniciando registro para:", values.full_name);
-    setIsDialogOpen(true);
+    if (isCustomModalOpen) {
+      console.log("Datos finales guardados:", values);
+      showToast("Registro creado con éxito", "success");
+      setIsCustomModalOpen(false);
+    } else {
+      setIsCustomModalOpen(true);
+    }
   };
 
   return (
@@ -122,9 +127,16 @@ export const ClientesPage = () => {
           required
         />
 
-        {/* Mantenemos tu contenedor de estilos original */}
-        <div className={styles.buttonContainer} style={{ marginTop: "20px" }}>
+        <div
+          className={styles.buttonContainer}
+          style={{ marginTop: "20px", display: "flex", gap: "10px" }}
+        >
           <Button label="Registrar Cliente" type="submit" fullWidth />
+          <Button
+            label="Ver Resumen"
+            onClick={() => setIsCustomModalOpen(true)}
+            fullWidth
+          />
         </div>
       </Form>
 
@@ -134,7 +146,39 @@ export const ClientesPage = () => {
         onPageChange={(page) => console.log("Cambio de página:", page)}
       />
 
-      <CustomModal />
+      <CustomModal
+        open={isCustomModalOpen}
+        onClose={() => setIsCustomModalOpen(false)}
+        title="Crear Nuevo Registro"
+        size="md"
+        footer={
+          <>
+            <Button
+              label="Cancelar"
+              onClick={() => setIsCustomModalOpen(false)}
+            />
+            <Button label="Guardar" onClick={() => handleSubmit(formValues)} />
+          </>
+        }
+      >
+        <p>Complete la información adicional para finalizar el registro.</p>
+
+        <Form isLoading={loading} onSubmit={handleSubmit}>
+          <Input
+            name="document"
+            label="Número de Documento"
+            value={formValues.document}
+            onChange={(v: string) => handleChange("document", v)}
+          />
+
+          <Input
+            name="text"
+            label="Observaciones"
+            value={formValues.text}
+            onChange={(v: string) => handleChange("text", v)}
+          />
+        </Form>
+      </CustomModal>
 
       <MyDialog
         isOpen={isDialogOpen}
