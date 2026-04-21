@@ -70,7 +70,7 @@ export const MyDialog: React.FC<React.PropsWithChildren<CustomDialogProps>> = ({
         {onConfirm && (
           <Button
             onClick={onConfirm}
-            variant="contained"
+            variant="outlined"
             color={config.color}
             disabled={isLoading}
             startIcon={

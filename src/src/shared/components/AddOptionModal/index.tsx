@@ -52,7 +52,7 @@ export const AddOptionModal = ({
             Cancelar
           </Button>
           <Button
-            variant="contained"
+            variant="outlined"
             onClick={() => onSave(name)}
             disabled={!name.trim()}
           >
