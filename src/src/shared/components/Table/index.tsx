@@ -87,16 +87,9 @@ export const Table = <T extends { id: string | number }>({
                 {columns.map((column) => (
                   <TableCell
                     key={String(column.key)}
-                    sx={{
-                      backgroundColor: "#f8fafc",
-                      color: "#475569",
-                      fontWeight: 600,
-                      fontSize: "0.75rem",
-                      textTransform: "uppercase",
-                      borderBottom: "2px solid #f1f4f9",
-                    }}
+                    className={styles.headerCell}
                   >
-                    <Box>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
                       {column.header}
                       {column.key === "fecha" && (
                         <Tooltip
@@ -111,19 +104,11 @@ export const Table = <T extends { id: string | number }>({
                                 sortDirection === "asc" ? "desc" : "asc",
                               )
                             }
-                            sx={{
-                              ml: 0.5,
-                              color: sortDirection ? "primary.main" : "inherit",
-                            }}
+                            className={`${styles.sortButton} ${sortDirection ? styles.sortButtonActive : ""}`}
                           >
                             <SortIcon
                               fontSize="small"
-                              sx={{
-                                transform:
-                                  sortDirection === "desc"
-                                    ? "rotate(180deg)"
-                                    : "none",
-                              }}
+                              className={`${styles.sortIcon} ${sortDirection === "desc" ? styles.sortIconDesc : ""}`}
                             />
                           </IconButton>
                         </Tooltip>
@@ -142,7 +127,7 @@ export const Table = <T extends { id: string | number }>({
                       {columns.map((column) => (
                         <TableCell
                           key={`${rowId}-${String(column.key)}`}
-                          sx={{ padding: "16px" }}
+                          className={styles.loadingCell}
                         >
                           <Skeleton
                             variant="text"
@@ -157,24 +142,16 @@ export const Table = <T extends { id: string | number }>({
               ) : data.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={columns.length} align="center">
-                    <Box>{emptyMessage}</Box>
+                    <Box className={styles.emptyBox}>{emptyMessage}</Box>
                   </TableCell>
                 </TableRow>
               ) : (
                 data.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    hover
-                    sx={{ "&:hover": { backgroundColor: "#f1f5f9" } }}
-                  >
+                  <TableRow key={row.id} hover className={styles.dataRow}>
                     {columns.map((column) => (
                       <TableCell
                         key={`${row.id}-${String(column.key)}`}
-                        sx={{
-                          padding: "12px 16px",
-                          fontSize: "0.875rem",
-                          color: "#1e293b",
-                        }}
+                        className={styles.dataCell}
                       >
                         {column.render
                           ? (column.render(row) as React.ReactNode)

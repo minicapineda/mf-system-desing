@@ -1,6 +1,7 @@
 import React from "react";
 import { Snackbar, Alert, type AlertColor } from "@mui/material";
 import type { ToastProps } from "mf-types";
+import style from "./toast.module.css";
 
 export const Toast: React.FC<ToastProps> = ({
   open,
@@ -20,7 +21,7 @@ export const Toast: React.FC<ToastProps> = ({
         onClose={onClose}
         severity={severity as AlertColor}
         variant="filled"
-        sx={{ width: "100%" }}
+        className={style.alert}
       >
         {message}
       </Alert>

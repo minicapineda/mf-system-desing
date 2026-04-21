@@ -14,18 +14,64 @@
     border-bottom: 1px solid #f1f4f9;
 }
 
-.ellipsis {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 200px;
-    display: block;
-}
-
 .searchField {
     width: 250px;
 }
 
 .tableContainer {
     max-height: 500px;
+}
+
+/* Nuevos estilos extraídos */
+
+.headerCell {
+    background-color: #f8fafc !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase;
+    border-bottom: 2px solid #f1f4f9 !important;
+}
+
+.sortButton {
+    margin-left: 4px !important;
+    /* ml: 0.5 */
+}
+
+.sortButtonActive {
+    color: var(--mui-palette-primary-main) !important;
+}
+
+.sortIcon {
+    transition: transform 0.2s ease-in-out;
+}
+
+.sortIconDesc {
+    transform: rotate(180deg);
+}
+
+.loadingCell {
+    padding: 16px !important;
+}
+
+.dataRow:hover {
+    background-color: #f1f5f9 !important;
+}
+
+.dataCell {
+    padding: 12px 16px !important;
+    font-size: 0.875rem !important;
+    color: #1e293b !important;
+}
+
+.emptyBox {
+    padding: 24px;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    display: block;
 }
