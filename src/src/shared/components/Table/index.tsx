@@ -86,7 +86,7 @@ export const Table = <T extends { id: string | number }>({
               <TableRow>
                 {columns.map((column) => (
                   <TableCell
-                    key={String(column.key)}
+                    key={`head-${String(column.key)}`}
                     className={styles.headerCell}
                   >
                     <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -120,25 +120,18 @@ export const Table = <T extends { id: string | number }>({
             </TableHead>
             <TableBody>
               {loading ? (
-                Array.from({ length: rowsPerPage }).map((_, i) => {
-                  const rowId = `loading-row-${i}`;
-                  return (
-                    <TableRow key={rowId}>
-                      {columns.map((column) => (
-                        <TableCell
-                          key={`${rowId}-${String(column.key)}`}
-                          className={styles.loadingCell}
-                        >
-                          <Skeleton
-                            variant="text"
-                            height={20}
-                            animation="wave"
-                          />
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  );
-                })
+                Array.from({ length: rowsPerPage }).map((_, rowIndex) => (
+                  <TableRow key={`loading-row-${rowIndex}`}>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={`loading-cell-${rowIndex}-${String(column.key)}`}
+                        className={styles.loadingCell}
+                      >
+                        <Skeleton variant="text" height={20} animation="wave" />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
               ) : data.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={columns.length} align="center">
