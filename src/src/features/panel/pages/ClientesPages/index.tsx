@@ -133,7 +133,11 @@ export const ClientesPage = () => {
           className={styles.buttonContainer}
           style={{ marginTop: "20px", display: "flex", gap: "10px" }}
         >
-          <Button label="Registrar Cliente" type="submit" fullWidth />
+          <Button
+            label="Registrar Cliente"
+            onClick={() => setIsDialogOpen(true)}
+            fullWidth
+          />
           <Button
             label="Ver Resumen"
             onClick={() => setIsCustomModalOpen(true)}

@@ -1,0 +1,12 @@
+.title {
+    font-weight: bold !important;
+}
+
+.titleDelete {
+    color: var(--mui-palette-error-main) !important;
+}
+
+.actions {
+    padding: 16px !important;
+    /* p: 2 */
+}

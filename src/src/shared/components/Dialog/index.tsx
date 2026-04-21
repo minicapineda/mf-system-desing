@@ -8,6 +8,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import type { CustomDialogProps, DialogVariant } from "mf-types";
+import style from "./dialog.module.css";
 
 export const MyDialog: React.FC<React.PropsWithChildren<CustomDialogProps>> = ({
   isOpen,
@@ -51,18 +52,17 @@ export const MyDialog: React.FC<React.PropsWithChildren<CustomDialogProps>> = ({
     >
       {title && (
         <DialogTitle
-          sx={{
-            fontWeight: "bold",
-            color: type === "delete" ? "error.main" : "inherit",
-          }}
+          className={`${style.title} ${type === "delete" ? style.titleDelete : ""}`}
         >
           {title}
         </DialogTitle>
       )}
 
-      <DialogContent dividers>{children}</DialogContent>
+      <DialogContent dividers className={style.content}>
+        {children}
+      </DialogContent>
 
-      <DialogActions sx={{ p: 2 }}>
+      <DialogActions className={style.actions}>
         <Button onClick={onClose} color="inherit" disabled={isLoading}>
           {cancelLabel}
         </Button>
@@ -84,4 +84,5 @@ export const MyDialog: React.FC<React.PropsWithChildren<CustomDialogProps>> = ({
     </MuiDialog>
   );
 };
+
 export default MyDialog;
