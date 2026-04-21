@@ -8,7 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import type { NavbarProps } from "../../../../../../packages/mf-types/dist";
+import type { NavbarProps } from "mf-types";
+import style from "./navbar.module.css";
 
 export const Navbar = ({
   items = [],
@@ -21,65 +22,52 @@ export const Navbar = ({
       <AppBar
         position="static"
         elevation={0}
-        sx={{
-          backgroundColor: "white",
-          color: "black",
-          borderBottom: "1px solid #e0e0e0",
-          width: "100%",
-        }}
+        className={style.navbar_container}
       >
         <Container maxWidth={false}>
           <Toolbar disableGutters>
-            {/* Logo o Título */}
             <Typography
               variant="h6"
               component={RouterLink}
               to="/"
-              sx={{
-                textDecoration: "none",
-                color: "inherit",
-                fontWeight: "bold",
-              }}
+              className={style.logo}
             >
               {logo}
             </Typography>
 
-            <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
-            >
+            <Box className={style.nav_items_group}>
               {items.map((item) => (
                 <Button
                   key={item.label}
                   component={RouterLink}
                   to={item.path}
-                  color="inherit"
-                  sx={{ mx: 1 }}
+                  className={style.nav_link}
                 >
                   {item.label}
                 </Button>
               ))}
             </Box>
 
-            <Box
-              sx={{
-                flexGrow: 0,
-                display: "flex",
-                alignItems: "center",
-                gap: 2,
-              }}
-            >
+            <Box className={style.right_section}>
               {userName && (
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  {userName}
-                </Typography>
+                <Typography className={style.user_name}>{userName}</Typography>
               )}
 
               {onLogout ? (
-                <Button variant="outlined" color="primary" onClick={onLogout}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={onLogout}
+                  className={style.action_button}
+                >
                   Cerrar Sesión
                 </Button>
               ) : (
-                <Button variant="contained" color="primary">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={style.action_button}
+                >
                   Login
                 </Button>
               )}

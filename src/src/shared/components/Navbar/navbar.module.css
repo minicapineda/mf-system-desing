@@ -1,34 +1,53 @@
 .navbar_container {
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255, 0.75) !important;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    color: #333;
+    color: #333 !important;
+    width: 100%;
 }
 
 .logo {
     text-decoration: none;
-    color: #1976d2;
+    color: #1976d2 !important;
     font-weight: 800;
     letter-spacing: -0.5px;
 }
 
+.nav_items_group {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
 .nav_link {
-    color: #444;
-    text-transform: none;
+    color: #444 !important;
+    text-transform: none !important;
     font-weight: 500;
-    margin: 0 12px;
+    margin: 0 12px !important;
     transition: color 0.2s ease;
 }
 
 .nav_link:hover {
-    color: #1976d2;
-    background-color: transparent;
+    color: #1976d2 !important;
+    background-color: transparent !important;
+}
+
+.right_section {
+    flex-grow: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
 .action_button {
-    text-transform: none;
-    border-radius: 8px;
-    padding: 6px 20px;
-    box-shadow: none;
+    text-transform: none !important;
+    border-radius: 8px !important;
+    padding: 6px 20px !important;
+    box-shadow: none !important;
+}
+
+.user_name {
+    color: #666;
+    font-size: 0.875rem;
 }

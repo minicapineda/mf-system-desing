@@ -5,10 +5,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 
-import type {
-  InputDateProps,
-  DateRange,
-} from "../../../../../../packages/mf-types/src/ui/inputdate/inputdate.types";
+import type { InputDateProps, DateRange } from "mf-types";
+import style from "./inputdate.module.css";
 
 export const InputDate = (props: InputDateProps) => {
   const {
@@ -60,12 +58,7 @@ export const InputDate = (props: InputDateProps) => {
           error: error,
           helperText: helperText,
           variant: "outlined",
-          sx: {
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "8px",
-              backgroundColor: "white",
-            },
-          },
+          className: style.datePickerInput,
         },
       }}
     />
@@ -74,20 +67,16 @@ export const InputDate = (props: InputDateProps) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
       {isRange ? (
-        <Box
-          sx={{ display: "flex", gap: 2, alignItems: "center", width: "100%" }}
-        >
-          <Box sx={{ flex: 1 }}>
+        <Box className={style.rangeContainer}>
+          <Box className={style.pickerWrapper}>
             {renderPicker(
               `${label} (Start)`,
               isDateRange(value) ? value.start : null,
               "start",
             )}
           </Box>
-          <Typography sx={{ fontWeight: "bold", color: "text.secondary" }}>
-            -
-          </Typography>
-          <Box sx={{ flex: 1 }}>
+          <Typography className={style.separator}>-</Typography>
+          <Box className={style.pickerWrapper}>
             {renderPicker(
               `${label} (End)`,
               isDateRange(value) ? value.end : null,

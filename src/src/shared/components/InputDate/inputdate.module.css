@@ -1,0 +1,20 @@
+.rangeContainer {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    width: 100%;
+}
+
+.pickerWrapper {
+    flex: 1;
+}
+
+.separator {
+    font-weight: bold;
+    color: var(--mui-palette-text-secondary);
+}
+
+.datePickerInput :global(.MuiOutlinedInput-root) {
+    border-radius: 8px;
+    background-color: white;
+}

@@ -52,11 +52,8 @@ export const InputDateRange = ({
   };
 
   return (
-    <Box sx={{ width: "100%", position: "relative" }}>
-      <Box
-        onClick={handleClick}
-        sx={{ cursor: "pointer", position: "relative" }}
-      >
+    <Box className={style.mainContainer}>
+      <Box onClick={handleClick} className={style.inputWrapper}>
         <Input
           name="range-display"
           label={label}
@@ -68,15 +65,7 @@ export const InputDateRange = ({
           helperText={helperText}
           placeholder="DD/MM/YYYY"
         />
-        <CalendarMonthIcon
-          sx={{
-            position: "absolute",
-            right: "12px",
-            top: "20px",
-            color: "gray",
-            pointerEvents: "none",
-          }}
-        />
+        <CalendarMonthIcon className={style.calendarIcon} />
       </Box>
 
       <Popover
@@ -86,11 +75,7 @@ export const InputDateRange = ({
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         slotProps={{
           paper: {
-            sx: {
-              boxShadow: "0px 10px 30px rgba(0,0,0,0.15)",
-              borderRadius: "12px",
-              mt: 1,
-            },
+            className: style.popoverPaper,
           },
         }}
       >

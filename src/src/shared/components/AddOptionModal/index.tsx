@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import type { CreateOptionModalProps } from "mf-types";
 import { useEffect, useState } from "react";
+import style from "./addoptionmodal.module.css";
 
 export const AddOptionModal = ({
   open,
@@ -26,25 +27,11 @@ export const AddOptionModal = ({
     <Modal
       open={open}
       onClose={onClose}
-      // Evita conflictos de foco con el Autocomplete en React 19
       disableRestoreFocus
       disableEnforceFocus
     >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 350,
-          bgcolor: "background.paper",
-          p: 4,
-          borderRadius: 2,
-          boxShadow: 24,
-          outline: "none",
-        }}
-      >
-        <Typography variant="h6" sx={{ mb: 2 }}>
+      <Box className={style.modalContainer}>
+        <Typography variant="h6" className={style.title}>
           {title}
         </Typography>
         <TextField
@@ -59,7 +46,8 @@ export const AddOptionModal = ({
             },
           }}
         />
-        <Stack spacing={2} direction={"row"} sx={{ mt: 3 }}>
+
+        <Stack spacing={2} direction="row" className={style.buttonStack}>
           <Button onClick={onClose} color="inherit">
             Cancelar
           </Button>
@@ -75,4 +63,5 @@ export const AddOptionModal = ({
     </Modal>
   );
 };
+
 export default AddOptionModal;

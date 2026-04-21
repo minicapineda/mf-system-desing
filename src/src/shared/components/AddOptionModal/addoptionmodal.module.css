@@ -1,0 +1,22 @@
+.modalContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    background-color: var(--mui-palette-background-paper, #fff);
+    padding: 32px;
+    border-radius: 8px;
+    box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+        0px 24px 38px 3px rgba(0, 0, 0, 0.14),
+        0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+    outline: none;
+}
+
+.title {
+    margin-bottom: 16px;
+}
+
+.buttonStack {
+    margin-top: 24px;
+}

@@ -8,6 +8,7 @@ import {
 import type { AutocompleteOption, AutocompleteProps } from "mf-types";
 import { useState, type SyntheticEvent, type HTMLAttributes } from "react";
 import { AddOptionModal } from "../AddOptionModal";
+import style from "./autocompletecustom.module.css";
 
 export const AutocompleteCustom = <T extends AutocompleteOption>({
   options,
@@ -66,21 +67,9 @@ export const AutocompleteCustom = <T extends AutocompleteOption>({
 
           if (opt.isNew) {
             return (
-              <li
-                key={key}
-                {...optionProps}
-                style={{ display: "block", padding: 0 }}
-              >
+              <li key={key} {...optionProps} className={style.addNewContainer}>
                 <Divider />
-                <Box
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#1976d2",
-                    px: 2,
-                    py: 1,
-                    "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.04)" },
-                  }}
-                >
+                <Box className={style.addNewButton}>
                   {opt.label} {opt.inputValue ? `"${opt.inputValue}"` : ""}
                 </Box>
               </li>
@@ -114,4 +103,5 @@ export const AutocompleteCustom = <T extends AutocompleteOption>({
     </>
   );
 };
+
 export default AutocompleteCustom;

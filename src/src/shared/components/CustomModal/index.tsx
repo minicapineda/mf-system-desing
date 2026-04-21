@@ -4,8 +4,6 @@ import type { ReactNode } from "react";
 import type { CustomModalProps, ModalSize } from "mf-types";
 import styles from "./custommodal.module.css";
 
-// Nota: Si mf-types no es genérico aún en el dist, recuerda usar el Omit
-// o el override que mencionamos antes para evitar el error de 'unknown'.
 type Props = CustomModalProps<ReactNode>;
 
 const sizes: Record<ModalSize, number> = {
