@@ -19,13 +19,13 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import type { TableProps } from "mf-types";
 import React, { type ChangeEvent, useState } from "react";
 import styles from "./Table.module.css";
+import type { TableProps } from "mf-types";
 
 type SortOrder = "asc" | "desc" | null;
 
-export const Table = <T extends { id: string | number }>({
+export const Table = <RowData extends { id: string | number }>({
   columns,
   data,
   loading = false,
@@ -36,7 +36,7 @@ export const Table = <T extends { id: string | number }>({
   onPageChange,
   onRowsPerPageChange,
   onSearch,
-}: TableProps<T>) => {
+}: TableProps<RowData>) => {
   const muiPage = page - 1;
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortDirection, setSortDirection] = useState<SortOrder>(null);
@@ -148,7 +148,9 @@ export const Table = <T extends { id: string | number }>({
                       >
                         {column.render
                           ? (column.render(row) as React.ReactNode)
-                          : (row[column.key as keyof T] as React.ReactNode)}
+                          : (row[
+                              column.key as keyof RowData
+                            ] as React.ReactNode)}
                       </TableCell>
                     ))}
                   </TableRow>
