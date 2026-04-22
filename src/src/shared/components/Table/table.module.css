@@ -1,12 +1,11 @@
-.tablePaper {
+div.table_paper {
     width: 100%;
     border: 1px solid #eef2f6;
     border-radius: 12px;
     overflow: hidden;
-    background: #fff;
 }
 
-.tableHeader {
+div.table_paper div.table_header {
     padding: 16px;
     display: flex;
     justify-content: space-between;
@@ -14,57 +13,54 @@
     border-bottom: 1px solid #f1f4f9;
 }
 
-.searchField {
+.search_field {
     width: 250px;
 }
 
-.tableContainer {
+div.table_paper div.table_header div.tableContainer {
     max-height: 500px;
 }
 
-/* Nuevos estilos extraídos */
-
-.headerCell {
-    background-color: #f8fafc !important;
-    color: #475569 !important;
-    font-weight: 600 !important;
-    font-size: 0.75rem !important;
+div.table_paper div.table_header div.tableContainer div.header_cell {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    border-bottom: 2px solid #f1f4f9 !important;
+    border-bottom: 2px solid #f1f4f9;
 }
 
-.sortButton {
-    margin-left: 4px !important;
-    /* ml: 0.5 */
+button.sort_button {
+    margin-left: 4px;
 }
 
-.sortButtonActive {
-    color: var(--mui-palette-primary-main) !important;
+button.sort_button_active {
+    color: var(--mui-palette-primary-main);
 }
 
-.sortIcon {
+button.sort_button svg.sort_icon {
     transition: transform 0.2s ease-in-out;
 }
 
-.sortIconDesc {
+button.sort_button svg.sort_icon_desc {
     transform: rotate(180deg);
 }
 
-.loadingCell {
-    padding: 16px !important;
+.loading_cell {
+    padding: 16px;
 }
 
-.dataRow:hover {
-    background-color: #f1f5f9 !important;
+tr.data_row:hover {
+    background-color: #f1f5f9;
 }
 
-.dataCell {
-    padding: 12px 16px !important;
-    font-size: 0.875rem !important;
-    color: #1e293b !important;
+.data_cell {
+    padding: 12px 16px;
+    font-size: 0.875rem;
+    color: #1e293b;
 }
 
-.emptyBox {
+.empty_box {
     padding: 24px;
 }
 

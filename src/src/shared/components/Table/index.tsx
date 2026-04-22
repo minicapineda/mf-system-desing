@@ -43,14 +43,14 @@ export const Table = <RowData extends { id: string | number }>({
 
   return (
     <StyledEngineProvider injectFirst>
-      <Paper elevation={0} className={styles.tablePaper}>
-        <Box className={styles.tableHeader}>
+      <Paper elevation={0} className={styles.table_paper}>
+        <Box className={styles.table_header}>
           <Typography variant="subtitle1">Listado de Registros</Typography>
           <TextField
             size="small"
             placeholder="Buscar..."
             value={searchTerm}
-            className={styles.searchField}
+            className={styles.search_field}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setSearchTerm(e.target.value);
               onSearch?.(e.target.value);
@@ -87,7 +87,7 @@ export const Table = <RowData extends { id: string | number }>({
                 {columns.map((column) => (
                   <TableCell
                     key={`head-${String(column.key)}`}
-                    className={styles.headerCell}
+                    className={styles.header_cell}
                   >
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                       {column.header}
@@ -104,11 +104,11 @@ export const Table = <RowData extends { id: string | number }>({
                                 sortDirection === "asc" ? "desc" : "asc",
                               )
                             }
-                            className={`${styles.sortButton} ${sortDirection ? styles.sortButtonActive : ""}`}
+                            className={`${styles.sort_button} ${sortDirection ? styles.sort_button_active : ""}`}
                           >
                             <SortIcon
                               fontSize="small"
-                              className={`${styles.sortIcon} ${sortDirection === "desc" ? styles.sortIconDesc : ""}`}
+                              className={`${styles.sort_icon} ${sortDirection === "desc" ? styles.sort_icon_desc : ""}`}
                             />
                           </IconButton>
                         </Tooltip>
@@ -125,7 +125,7 @@ export const Table = <RowData extends { id: string | number }>({
                     {columns.map((column) => (
                       <TableCell
                         key={`loading-cell-${rowIndex}-${String(column.key)}`}
-                        className={styles.loadingCell}
+                        className={styles.loading_cell}
                       >
                         <Skeleton variant="text" height={20} animation="wave" />
                       </TableCell>
@@ -135,16 +135,16 @@ export const Table = <RowData extends { id: string | number }>({
               ) : data.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={columns.length} align="center">
-                    <Box className={styles.emptyBox}>{emptyMessage}</Box>
+                    <Box className={styles.empty_box}>{emptyMessage}</Box>
                   </TableCell>
                 </TableRow>
               ) : (
                 data.map((row) => (
-                  <TableRow key={row.id} hover className={styles.dataRow}>
+                  <TableRow key={row.id} hover className={styles.data_row}>
                     {columns.map((column) => (
                       <TableCell
                         key={`${row.id}-${String(column.key)}`}
-                        className={styles.dataCell}
+                        className={styles.data_cell}
                       >
                         {column.render
                           ? (column.render(row) as React.ReactNode)
