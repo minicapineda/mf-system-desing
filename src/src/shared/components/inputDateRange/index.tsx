@@ -52,8 +52,8 @@ export const InputDateRange = ({
   };
 
   return (
-    <Box className={style.mainContainer}>
-      <Box onClick={handleClick} className={style.inputWrapper}>
+    <Box className={style.main_container}>
+      <Box onClick={handleClick} className={style.input_wrapper}>
         <Input
           name="range-display"
           label={label}

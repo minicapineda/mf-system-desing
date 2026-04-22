@@ -1,9 +1,9 @@
-.mainContainer {
+div.main_container {
     width: 100%;
     position: relative;
 }
 
-.inputWrapper {
+div.main_container div.input_wrapper {
     cursor: pointer;
     position: relative;
 }
