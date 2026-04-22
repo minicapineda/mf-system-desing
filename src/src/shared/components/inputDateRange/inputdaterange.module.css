@@ -8,7 +8,7 @@ div.main_container div.input_wrapper {
     position: relative;
 }
 
-.calendarIcon {
+div.main_container div.input_wrapper .calendar_icon {
     position: absolute;
     right: 12px;
     top: 20px;
@@ -16,13 +16,13 @@ div.main_container div.input_wrapper {
     pointer-events: none;
 }
 
-.popoverPaper {
+div.main_container .popover_paper {
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
     border-radius: 12px;
     margin-top: 8px;
 }
 
-.calendarContainer :global(.react-calendar) {
+.calendar_container :global(.react-calendar) {
     width: 330px;
     background: white;
     border: none;
@@ -31,8 +31,8 @@ div.main_container div.input_wrapper {
     border-radius: 8px;
 }
 
-.calendarContainer :global(.react-calendar__tile),
-.calendarContainer :global(.react-calendar__month-view__days__day) {
+.calendar_container :global(.react-calendar__tile),
+.calendar_container :global(.react-calendar__month-view__days__day) {
     height: 36px;
     width: 36px;
     max-width: 36px;
@@ -48,11 +48,11 @@ div.main_container div.input_wrapper {
     color: #333;
 }
 
-.calendarContainer :global(.react-calendar__month-view__days__day--neighboringMonth) {
+.calendar_container :global(.react-calendar__month-view__days__day--neighboringMonth) {
     color: #bbb;
 }
 
-.calendarContainer :global(.react-calendar__month-view__weekdays__weekday) {
+.calendar_container :global(.react-calendar__month-view__weekdays__weekday) {
     padding: 8px 0;
     text-transform: uppercase;
     font-size: 0.75rem;
@@ -60,12 +60,12 @@ div.main_container div.input_wrapper {
     color: #666;
 }
 
-.calendarContainer :global(.react-calendar__month-view__weekdays__weekday abbr) {
+.calendar_container :global(.react-calendar__month-view__weekdays__weekday abbr) {
     text-decoration: none;
     border-bottom: none;
 }
 
-.calendarContainer :global(.react-calendar__navigation button) {
+.calendar_container :global(.react-calendar__navigation button) {
     color: #000;
     min-width: 44px;
     background: none;
@@ -74,19 +74,20 @@ div.main_container div.input_wrapper {
     border: none;
 }
 
-.calendarContainer :global(.react-calendar__tile:enabled:hover) {
+.calendar_container :global(.react-calendar__tile:enabled:hover) {
     background-color: #f0f0f0;
 }
 
-.calendarContainer :global(.react-calendar__tile--active),
-.calendarContainer :global(.react-calendar__tile--rangeStart),
-.calendarContainer :global(.react-calendar__tile--rangeEnd) {
+.calendar_container :global(.react-calendar__tile--active),
+.calendar_container :global(.react-calendar__tile--rangeStart),
+
+.calendar_container :global(.react-calendar__tile--rangeEnd) {
     background: #1976d2;
     color: white;
     border-radius: 50%;
 }
 
-.calendarContainer :global(.react-calendar__tile--range) {
+.calendar_container :global(.react-calendar__tile--range) {
     background: #1976d2;
     color: #fff;
 }

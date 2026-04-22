@@ -65,7 +65,7 @@ export const InputDateRange = ({
           helperText={helperText}
           placeholder="DD/MM/YYYY"
         />
-        <CalendarMonthIcon className={style.calendarIcon} />
+        <CalendarMonthIcon className={style.calendar_icon} />
       </Box>
 
       <Popover
@@ -75,11 +75,11 @@ export const InputDateRange = ({
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         slotProps={{
           paper: {
-            className: style.popoverPaper,
+            className: style.popover_paper,
           },
         }}
       >
-        <Box className={style.calendarContainer}>
+        <Box className={style.calendar_container}>
           <Calendar
             onChange={(val) => handleCalendarChange(val as CalendarValue)}
             selectRange={true}
