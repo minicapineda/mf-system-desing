@@ -195,6 +195,14 @@ export const ClientesPage = () => {
             value={formValues.observations}
             onChange={(v: string) => handleChange("observations", v)}
           />
+
+          <InputDate
+            label="Fecha de Vencimiento"
+            value={fechaSimple}
+            onChange={(newValue: any) =>
+              setFechaSimple(newValue as Date | null)
+            }
+          />
         </Form>
       </CustomModal>
 

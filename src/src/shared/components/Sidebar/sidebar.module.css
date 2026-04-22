@@ -1,11 +1,11 @@
-.drawer {
+div.drawer {
     flex-shrink: 0;
     white-space: nowrap;
     box-sizing: border-box;
 }
 
-.drawerOpen,
-.drawerOpen :global(.MuiDrawer-paper) {
+div.drawer_open,
+div.drawer_open :global(.MuiDrawer-paper) {
     width: 260px;
     transition: width 225ms cubic-bezier(0.4, 0, 0.2, 1);
     background-color: #1e1e2f;
@@ -14,46 +14,46 @@
     overflow-x: hidden;
 }
 
-.drawerClosed,
-.drawerClosed :global(.MuiDrawer-paper) {
-    width: 70px !important;
-    transition: width 195ms cubic-bezier(0.4, 0, 0.2, 1) !important;
-    background-color: #1e1e2f !important;
-    color: white !important;
-    border-right: none !important;
-    overflow-x: hidden !important;
+div.drawer_closed,
+div.drawer_closed :global(.MuiDrawer-paper) {
+    width: 70px;
+    transition: width 195ms cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #1e1e2f;
+    color: white;
+    border-right: none;
+    overflow-x: hidden;
 }
 
-.header {
+div.header {
     display: flex;
     align-items: center;
     padding: 16px;
     min-height: 64px;
 }
 
-.headerOpen {
+div.header_open {
     justify-content: space-between;
 }
 
-.headerClosed {
+div.header_closed {
     justify-content: center;
 }
 
-.brandName {
+div.header_open h6.brand_name {
     font-weight: 700;
     color: #4caf50;
 }
 
 .divider {
-    background-color: rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-.listItem {
+li.list_item {
     display: block;
     margin-bottom: 4px;
 }
 
-.navButton {
+li.list_item div.nav_button {
     min-height: 48px;
     padding: 0 20px;
     margin: 0 8px;
@@ -62,13 +62,13 @@
     transition: background-color 0.2s, color 0.2s;
 }
 
-.navButton:hover {
+li.list_item div.nav_button:hover {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-.navButtonActive {
-    background-color: rgba(76, 175, 80, 0.2) !important;
-    color: #4caf50 !important;
+li.list_item div.nav_button_active {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
 }
 
 .icon {
@@ -77,14 +77,14 @@
     color: inherit;
 }
 
-.iconOpen {
+.icon_open {
     margin-right: 16px;
 }
 
-.iconClosed {
+.icon_closed {
     margin-right: 0;
 }
 
-.itemText {
+.item_text {
     transition: opacity 0.2s ease-in-out;
 }

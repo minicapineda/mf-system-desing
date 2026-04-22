@@ -40,13 +40,13 @@ export const Sidebar = ({ open, toggleDrawer }: SidebarProps) => {
     <Drawer
       variant="permanent"
       open={open}
-      className={`${style.drawer} ${open ? style.drawerOpen : style.drawerClosed}`}
+      className={`${style.drawer} ${open ? style.drawer_open : style.drawer_closed}`}
     >
       <Box
-        className={`${style.header} ${open ? style.headerOpen : style.headerClosed}`}
+        className={`${style.header} ${open ? style.header_open : style.header_closed}`}
       >
         {open && (
-          <Typography variant="h6" className={style.brandName}>
+          <Typography variant="h6" className={style.brand_name}>
             FINANCIA
           </Typography>
         )}
@@ -65,22 +65,22 @@ export const Sidebar = ({ open, toggleDrawer }: SidebarProps) => {
             <ListItem
               key={item.label}
               disablePadding
-              className={style.listItem}
+              className={style.list_item}
             >
               <Tooltip title={!open ? item.label : ""} placement="right">
                 <ListItemButton
                   onClick={() => navigate(item.path)}
-                  className={`${style.navButton} ${isActive ? style.navButtonActive : ""}`}
+                  className={`${style.nav_button} ${isActive ? style.nav_button_active : ""}`}
                   sx={{ justifyContent: open ? "initial" : "center" }}
                 >
                   <ListItemIcon
-                    className={`${style.icon} ${open ? style.iconOpen : style.iconClosed}`}
+                    className={`${style.icon} ${open ? style.icon_open : style.icon_closed}`}
                   >
                     {item.icon() as ReactNode}
                   </ListItemIcon>
                   <ListItemText
                     primary={item.label}
-                    className={style.itemText}
+                    className={style.item_text}
                     sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>

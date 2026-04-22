@@ -3,16 +3,16 @@
     height: 40px;
 }
 
-.skeletonCenter {
+.skeleton_center {
     margin-left: auto;
     margin-right: auto;
 }
 
-.skeletonLeft {
+.skeleton_left {
     margin-left: 0;
 }
 
-.skeletonRight {
+.skeleton_right {
     margin-left: auto;
     margin-right: 0;
 }

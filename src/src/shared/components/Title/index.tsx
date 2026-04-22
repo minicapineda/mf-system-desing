@@ -18,10 +18,10 @@ export const Title = ({
   if (isLoading) {
     const alignmentClass =
       align === "center"
-        ? style.skeletonCenter
+        ? style.skeleton_center
         : align === "right"
-          ? style.skeletonRight
-          : style.skeletonLeft;
+          ? style.skeleton_right
+          : style.skeleton_left;
 
     return (
       <Skeleton

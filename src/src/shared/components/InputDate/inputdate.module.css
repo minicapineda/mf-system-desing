@@ -1,20 +1,22 @@
-.rangeContainer {
-    display: flex;
-    gap: 16px;
-    align-items: center;
+.date_picker_input {
+    background-color: #ffffff;
     width: 100%;
 }
 
-.pickerWrapper {
-    flex: 1;
-}
-
-.separator {
-    font-weight: bold;
-    color: var(--mui-palette-text-secondary);
-}
-
-.datePickerInput :global(.MuiOutlinedInput-root) {
+.date_picker_input :global(.MuiOutlinedInput-notchedOutline) {
     border-radius: 8px;
-    background-color: white;
+}
+
+
+.date_picker_input:global(.Mui-focused) :global(.MuiOutlinedInput-notchedOutline) {
+    border-color: #1976d2;
+    border-width: 2px;
+}
+
+.date_picker_input :global(.MuiInputLabel-root) {
+    font-family: inherit;
+}
+
+.date_picker_input :global(.MuiInputLabel-root.Mui-focused) {
+    color: #1976d2;
 }
