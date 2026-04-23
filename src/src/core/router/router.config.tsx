@@ -6,6 +6,7 @@ import { Navbar, ROUTES, Table } from "src/shared";
 import { useTableParams } from "src/shared/hooks/useTableParams";
 import { MainLayout } from "../../features/panel/pages/MainLayout";
 import { LazyWrapper } from "../../shared/layouts";
+import EmptyState from "src/shared/components/EmptyState";
 
 const invoicesData: Invoices[] = [
   {
@@ -181,7 +182,15 @@ export const router = createBrowserRouter([
         path: ROUTES.CONFIGURACION.replace("/", ""),
         element: (
           <LazyWrapper>
-            <div>Configuración</div>
+            <div style={{ padding: "40px" }}>
+              <EmptyState
+                title="Opps! No data available"
+                description="Settings data is currently unavailable."
+                iconName="settings"
+                actionLabel="Back to Home"
+                onAction={() => (window.location.href = "/")}
+              />
+            </div>
           </LazyWrapper>
         ),
       },
