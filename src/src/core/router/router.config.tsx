@@ -103,7 +103,7 @@ const InvoicesContainer = () => {
           f.codigo.toLowerCase().includes(searchTerm.toLowerCase()),
       );
 
-      const start = page * rowsPerPage;
+      const start = (page - 1) * rowsPerPage;
       setApiData(allFiltered.slice(start, start + rowsPerPage));
       setTotalCount(allFiltered.length);
       setIsLoading(false);

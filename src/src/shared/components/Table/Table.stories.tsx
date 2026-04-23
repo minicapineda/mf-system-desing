@@ -144,10 +144,10 @@ const mockData: Invoices[] = [
 
 export const Default: Story = {
 	render: (args) => {
-		const [currentPage, setCurrentPage] = useState(0);
+		const [currentPage, setCurrentPage] = useState(1);
 		const [rowsPerPage, setRowsPerPage] = useState(5);
 		const paginatedData = useMemo(() => {
-			const start = currentPage * rowsPerPage;
+			const start = (currentPage - 1) * rowsPerPage;
 			const end = start + rowsPerPage;
 			return mockData.slice(start, end);
 		}, [currentPage, rowsPerPage]);
@@ -162,7 +162,7 @@ export const Default: Story = {
 				onPageChange={(p) => setCurrentPage(p)}
 				onRowsPerPageChange={(rpp) => {
 					setRowsPerPage(rpp);
-					setCurrentPage(0);
+					setCurrentPage(1);
 				}}
 			/>
 		);

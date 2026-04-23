@@ -19,9 +19,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { type ChangeEvent, useState } from "react";
+import React, { type ChangeEvent, useEffect, useState } from "react";
 import styles from "./Table.module.css";
 import type { TableProps } from "mf-types";
+import { EmptyState } from "src/shared/components/EmptyState";
 
 type SortOrder = "asc" | "desc" | null;
 
@@ -37,9 +38,22 @@ export const Table = <RowData extends { id: string | number }>({
   onRowsPerPageChange,
   onSearch,
 }: TableProps<RowData>) => {
-  const muiPage = page - 1;
+  const safePage = Math.max(1, page);
+  const muiPage = safePage - 1;
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortDirection, setSortDirection] = useState<SortOrder>(null);
+  const [showSkeleton, setShowSkeleton] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!loading) {
+      setShowSkeleton(false);
+      return;
+    }
+
+    // Evita parpadeo del skeleton en cargas cortas.
+    const timer = setTimeout(() => setShowSkeleton(true), 180);
+    return () => clearTimeout(timer);
+  }, [loading]);
 
   return (
     <StyledEngineProvider injectFirst>
@@ -119,7 +133,7 @@ export const Table = <RowData extends { id: string | number }>({
               </TableRow>
             </TableHead>
             <TableBody>
-              {loading ? (
+              {loading || showSkeleton ? (
                 Array.from({ length: rowsPerPage }).map((_, rowIndex) => (
                   <TableRow key={`loading-row-${rowIndex}`}>
                     {columns.map((column) => (
@@ -132,10 +146,16 @@ export const Table = <RowData extends { id: string | number }>({
                     ))}
                   </TableRow>
                 ))
-              ) : data.length === 0 ? (
+              ) : !loading && data.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={columns.length} align="center">
-                    <Box className={styles.empty_box}>{emptyMessage}</Box>
+                    <Box className={styles.empty_box}>
+                      <EmptyState
+                        title={emptyMessage}
+                        description="No hay datos para mostrar en este momento."
+                        iconName="empty"
+                      />
+                    </Box>
                   </TableCell>
                 </TableRow>
               ) : (
